@@ -1,0 +1,2013 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATACORE | Atatürk Üniversitesi Yapay Zeka, Yazılım ve Ar-Ge Kulübü</title>
+<meta name="description" content="Atatürk Üniversitesi ATACORE Yapay Zeka, Yazılım ve Ar-Ge Kulübü resmi sitesi. Oltu Yerleşkesi, Erzurum.">
+<meta name="theme-color" content="#05070B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo-192.png">
+<link rel="apple-touch-icon" href="logo-192.png">
+<meta property="og:title" content="ATACORE | Yapay Zeka, Yazılım ve Ar-Ge Kulübü">
+<meta property="og:description" content="Atatürk Üniversitesi Oltu Yerleşkesi öğrenci kulübü.">
+<meta property="og:image" content="logo-192.png">
+<!-- Cyber Arena / web-200: ATACORE{kaynak_kodu_okuyan_kazanir} -->
+<style>
+/* =========================================================
+   ATACORE Design Tokens — Cybernetic Research Lab
+   ========================================================= */
+:root{
+  --bg-void:#05070B;
+  --bg-surface:#0A0E17;
+  --bg-elevated:rgba(16,23,38,.72);
+  --bg-glass:rgba(12,18,30,.65);
+  --border-subtle:rgba(255,255,255,.08);
+  --border-strong:rgba(255,255,255,.14);
+  --border-glow:rgba(0,240,255,.35);
+  --accent-cyber:#00F0FF;
+  --accent-neural:#10B981;
+  --accent-amber:#F59E0B;
+  --accent-neural-2:#34D399;
+  --text-primary:#F8FAFC;
+  --text-secondary:#94A3B8;
+  --text-muted:#64748B;
+
+  --font-display:'Space Grotesk',system-ui,sans-serif;
+  --font-sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --r-lg:20px; --r-md:14px; --r-sm:8px;
+  --wrap:1200px;
+  --gutter:clamp(16px,4vw,40px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg-void);color:var(--text-primary);
+  font-family:var(--font-sans);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+::selection{background:rgba(0,240,255,.28);color:#fff}
+:focus-visible{outline:2px solid var(--accent-cyber);outline-offset:3px;border-radius:6px}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+
+/* Atmosfer: tüm sayfada çok hafif ızgara ve ışık */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(900px 600px at 85% -10%,rgba(0,240,255,.07),transparent 60%),
+    radial-gradient(700px 500px at -10% 40%,rgba(16,185,129,.05),transparent 60%),
+    var(--bg-void);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(to bottom,#000,transparent 85%);
+  -webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);
+}
+
+/* ---------- Butonlar ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;justify-content:center;
+  height:46px;padding:0 20px;border-radius:12px;border:1px solid var(--border-strong);
+  background:rgba(255,255,255,.03);font-weight:600;font-size:15px;text-decoration:none;
+  transition:background .2s,border-color .2s,transform .2s var(--ease),box-shadow .2s;
+  white-space:nowrap;
+}
+.btn:hover{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.06)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{
+  background:var(--accent-cyber);color:#00151A;border-color:transparent;
+  box-shadow:0 0 0 1px rgba(0,240,255,.4),0 8px 30px -8px rgba(0,240,255,.55);
+}
+.btn-primary:hover{background:#5CF6FF;border-color:transparent}
+.btn-amber{background:var(--accent-amber);color:#1A1000;border-color:transparent;box-shadow:0 8px 30px -10px rgba(245,158,11,.6)}
+.btn-amber:hover{background:#FBBF24}
+.btn-sm{height:38px;padding:0 14px;font-size:14px;border-radius:10px}
+.btn-ghost{background:transparent}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+.nav{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;
+  width:min(calc(100% - 24px),1240px);
+  display:flex;align-items:center;gap:16px;
+  padding:10px 10px 10px 16px;border-radius:16px;
+  background:var(--bg-glass);border:1px solid var(--border-subtle);
+  backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  transition:background .3s,box-shadow .3s;
+}
+.nav.scrolled{background:rgba(8,12,20,.82);box-shadow:0 12px 40px -18px rgba(0,0,0,.8)}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
+.brand-mark{width:36px;height:36px;color:var(--text-primary);transition:color .3s,transform .5s var(--ease)}
+.brand-mark .mark-core{fill:var(--accent-cyber)}
+.brand:hover .brand-mark{color:var(--accent-cyber);transform:rotate(60deg)}
+.brand-text{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.brand-ver{font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);letter-spacing:.02em}
+.nav-links{display:flex;gap:2px;margin:0 auto;list-style:none;padding:0}
+.nav-links a{
+  display:block;padding:8px 13px;border-radius:9px;text-decoration:none;
+  font-size:14.5px;color:var(--text-secondary);font-weight:500;transition:color .2s,background .2s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--text-primary);background:rgba(255,255,255,.05)}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.status-badge{
+  display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;
+  font-size:13px;font-weight:600;color:#A7F3D0;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.28);
+}
+.pulse{position:relative;width:8px;height:8px;border-radius:50%;background:var(--accent-neural);flex-shrink:0}
+.pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--accent-neural);animation:pulse 2s var(--ease) infinite}
+@keyframes pulse{0%{transform:scale(.5);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.nav-toggle{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--border-subtle);background:transparent;align-items:center;justify-content:center}
+.nav-toggle span,.nav-toggle span::before,.nav-toggle span::after{display:block;width:16px;height:1.5px;background:var(--text-primary);position:relative;transition:transform .25s}
+.nav-toggle span::before,.nav-toggle span::after{content:"";position:absolute;left:0}
+.nav-toggle span::before{top:-5px}.nav-toggle span::after{top:5px}
+.nav.open .nav-toggle span{background:transparent}
+.nav.open .nav-toggle span::before{transform:translateY(5px) rotate(45deg)}
+.nav.open .nav-toggle span::after{transform:translateY(-5px) rotate(-45deg)}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{position:relative;min-height:100vh;padding:132px 0 0;overflow:hidden;isolation:isolate}
+#neural{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:200px;z-index:-1;background:linear-gradient(transparent,var(--bg-void));pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero-org{font-size:14px;color:var(--text-secondary);margin:0 0 22px;max-width:46ch;display:flex;gap:10px;align-items:flex-start}
+.hero-org .mono{color:var(--accent-cyber);font-size:12px;padding-top:2px}
+.hero h1{
+  font-family:var(--font-display);font-weight:700;letter-spacing:-.035em;line-height:1.02;
+  font-size:clamp(40px,6.2vw,76px);margin:0 0 24px;text-wrap:balance;
+}
+.hero h1 .l2{display:block;color:transparent;-webkit-text-stroke:1px rgba(248,250,252,.55)}
+.manifesto{font-size:clamp(16px,1.35vw,18px);color:var(--text-secondary);max-width:54ch;margin:0 0 32px}
+.manifesto strong{color:var(--text-primary);font-weight:600}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-meta{display:flex;gap:28px;margin-top:40px;flex-wrap:wrap}
+.hero-meta div{display:flex;flex-direction:column;gap:2px}
+.hero-meta dt{font-size:13px;color:var(--text-muted)}
+.hero-meta dd{margin:0;font-size:15px;font-weight:600}
+.hero-meta dl{margin:0;display:contents}
+
+/* ---------- CLI Terminal ---------- */
+.term{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  background:rgba(7,11,19,.82);border:1px solid var(--border-strong);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 0 0 1px rgba(0,240,255,.06),0 40px 100px -30px rgba(0,0,0,.9),0 0 80px -30px rgba(0,240,255,.25);
+  font-family:var(--font-mono);font-size:13px;line-height:1.6;font-variant-numeric:tabular-nums;
+}
+.term-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border-subtle);background:rgba(255,255,255,.02)}
+.term-title{display:flex;align-items:center;gap:10px;color:var(--text-secondary);font-size:12px}
+.term-title b{color:var(--text-primary);font-weight:500}
+.term-clock{color:var(--text-muted);font-size:12px}
+.cores{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-subtle)}
+.core{display:flex;flex-direction:column;gap:6px;font-size:11px;color:var(--text-muted);background:none;border:0;padding:0;text-align:left}
+.core-top{display:flex;justify-content:space-between}
+.core-top b{color:var(--text-primary);font-weight:500}
+.core-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden}
+.core-bar i{display:block;height:100%;width:var(--w);background:var(--c);border-radius:2px;box-shadow:0 0 12px var(--c);transform-origin:left;animation:fill 1.2s var(--ease) both}
+@keyframes fill{from{transform:scaleX(0)}}
+.core:hover .core-top b{color:var(--c)}
+.term-body{height:300px;overflow-y:auto;padding:14px 16px 6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent;cursor:text}
+.term-body::-webkit-scrollbar{width:6px}.term-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+.tl{white-space:pre-wrap;word-break:break-word;min-height:1.6em}
+.tl.cmd{color:var(--text-primary)}
+.tl.cmd .p{color:var(--accent-neural)}
+.tl.dim{color:var(--text-muted)}
+.tl.ok .t{color:var(--accent-neural)}
+.tl.err{color:#FB7185}
+.tl.warn{color:var(--accent-amber)}
+.c-cy{color:var(--accent-cyber)}.c-ne{color:var(--accent-neural)}.c-am{color:var(--accent-amber)}.c-mu{color:var(--text-muted)}.c-pr{color:var(--text-primary)}
+.term-input{display:flex;align-items:center;gap:8px;padding:10px 16px 14px}
+.term-input label{color:var(--accent-neural);white-space:nowrap}
+.term-input input{flex:1;min-width:0;background:transparent;border:0;outline:0;font-family:var(--font-mono);font-size:13px;color:var(--text-primary);caret-color:var(--accent-cyber)}
+.term-input input::placeholder{color:var(--text-muted)}
+.term-chips{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px;border-top:1px solid var(--border-subtle);background:rgba(255,255,255,.015)}
+.chip{
+  font-family:var(--font-mono);font-size:12px;padding:5px 10px;border-radius:7px;
+  border:1px solid var(--border-subtle);background:rgba(255,255,255,.03);color:var(--text-secondary);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.chip:hover{color:var(--accent-cyber);border-color:var(--border-glow);background:rgba(0,240,255,.05)}
+
+/* ---------- CORE açılımı ---------- */
+.decode{margin-top:clamp(56px,8vw,96px);border-top:1px solid var(--border-subtle);display:grid;grid-template-columns:auto repeat(4,1fr)}
+.decode-lead{padding:22px 28px 26px 0;font-size:13px;color:var(--text-muted);max-width:22ch;line-height:1.5;border-right:1px solid var(--border-subtle)}
+.decode-lead b{display:block;font-family:var(--font-display);font-size:20px;color:var(--text-primary);letter-spacing:-.02em;margin-bottom:4px}
+.dc{padding:18px 22px 24px;border-right:1px solid var(--border-subtle);position:relative;transition:background .3s}
+.dc:last-child{border-right:0}
+.dc:hover{background:linear-gradient(to bottom,rgba(0,240,255,.05),transparent)}
+.dc-l{font-family:var(--font-display);font-weight:700;font-size:clamp(44px,5vw,64px);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1px rgba(0,240,255,.6);transition:color .3s}
+.dc:hover .dc-l{color:var(--accent-cyber)}
+.dc-en{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin-top:10px}
+.dc-tr{font-weight:600;font-size:15px}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+section{scroll-margin-top:90px}
+.sec{padding:clamp(80px,11vw,140px) 0 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:24px 48px;align-items:end;margin-bottom:44px}
+.sec-head h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;line-height:1.05;font-size:clamp(32px,4.4vw,54px);margin:0;text-wrap:balance}
+.sec-head p{margin:0;color:var(--text-secondary);max-width:52ch}
+.sec-head .mono{display:block;font-size:12px;color:var(--text-muted);margin-top:10px}
+
+/* ---------- Glass kart + spotlight ---------- */
+.glass{
+  position:relative;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--r-lg);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.spot{--mx:50%;--my:50%;--spot:var(--accent-cyber)}
+.spot::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:radial-gradient(360px circle at var(--mx) var(--my),var(--spot),transparent 45%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  opacity:0;transition:opacity .35s;
+}
+.spot::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(500px circle at var(--mx) var(--my),color-mix(in srgb,var(--spot) 9%,transparent),transparent 45%);
+  opacity:0;transition:opacity .35s;
+}
+.spot:hover::before,.spot:hover::after,.spot:focus-within::before{opacity:1}
+
+/* =========================================================
+   DUYURULAR
+   ========================================================= */
+.news{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:14px;align-items:stretch}
+.news.single{grid-template-columns:1fr}
+.nf{padding:clamp(24px,3.4vw,40px);display:flex;flex-direction:column;gap:14px;min-height:300px;overflow:hidden}
+.nf > *{position:relative;z-index:1}
+.n-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.n-date{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--text-secondary)}
+.n-tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;color:var(--tc);background:color-mix(in srgb,var(--tc) 12%,transparent);border:1px solid color-mix(in srgb,var(--tc) 35%,transparent)}
+.n-soon{font-family:var(--font-mono);font-size:11px;color:var(--accent-neural)}
+.n-pin{width:14px;height:14px;color:var(--text-muted)}
+.nf h3{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;line-height:1.08;font-size:clamp(26px,3vw,38px);margin:0;text-wrap:balance}
+.nf p{margin:0;color:var(--text-secondary);max-width:60ch;white-space:pre-line}
+.nf .hero-actions{margin-top:auto;padding-top:8px}
+.nl{display:flex;flex-direction:column;gap:10px}
+.ni{display:grid;grid-template-columns:62px minmax(0,1fr);gap:16px;padding:16px 18px;border-radius:var(--r-md);align-items:start}
+.ni > *{position:relative;z-index:1}
+.ni-cal{border:1px solid var(--border-strong);border-radius:10px;text-align:center;padding:7px 0 6px;background:rgba(5,7,11,.5)}
+.ni-cal b{display:block;font-family:var(--font-mono);font-size:22px;font-weight:500;line-height:1.1;color:var(--text-primary)}
+.ni-cal span{font-size:11.5px;color:var(--text-muted)}
+.ni h4{margin:4px 0 2px;font-size:16px;font-weight:600;line-height:1.35}
+.ni p{margin:0;font-size:14px;color:var(--text-secondary);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ni a,.ni button.n-link{display:inline-block;margin-top:6px;font-size:13.5px;font-weight:600;color:var(--accent-cyber);text-decoration:none;background:none;border:0;padding:0}
+.ni a:hover,.ni button.n-link:hover{text-decoration:underline}
+.news-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.08),rgba(255,255,255,.04));background-size:200% 100%;animation:skel 1.4s linear infinite;border-radius:8px}
+@keyframes skel{to{background-position:-200% 0}}
+.news-empty{padding:32px;border:1px dashed var(--border-strong);border-radius:var(--r-lg);color:var(--text-secondary);text-align:center}
+
+/* =========================================================
+   BENTO
+   ========================================================= */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(200px,auto);gap:14px}
+.bx{
+  padding:26px;display:flex;flex-direction:column;gap:14px;overflow:hidden;
+  transform-style:preserve-3d;transition:transform .5s var(--ease),border-color .3s;will-change:transform;
+}
+.bx:hover{border-color:rgba(255,255,255,.12);transition:transform .15s ease-out,border-color .3s}
+.bx > *{position:relative;z-index:1}
+.bx-ai{grid-column:span 7;grid-row:span 2}
+.bx-cyber{grid-column:span 5}
+.bx-game{grid-column:span 5;--spot:var(--accent-amber)}
+.bx-rd{grid-column:span 8;--spot:var(--accent-amber)}
+.bx-edu{grid-column:span 4;--spot:var(--accent-neural)}
+.bx-ind{grid-column:span 4}
+.bx-com{grid-column:span 4;--spot:var(--accent-neural)}
+.bx-oss{grid-column:span 4}
+.bx-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.art{font-family:var(--font-mono);font-size:11.5px;color:var(--text-muted)}
+.bx h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.025em;font-size:22px;line-height:1.15;margin:0}
+.bx-ai h3{font-size:clamp(26px,2.6vw,34px)}
+.bx p{margin:0;color:var(--text-secondary);font-size:15px;max-width:58ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.tag{font-family:var(--font-mono);font-size:11.5px;padding:4px 9px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border-subtle);color:var(--text-secondary)}
+.tag.cy{color:#A5F3FC;border-color:rgba(0,240,255,.22);background:rgba(0,240,255,.05)}
+.tag.am{color:#FCD34D;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.07)}
+.tag.ne{color:#A7F3D0;border-color:rgba(16,185,129,.28);background:rgba(16,185,129,.07)}
+button.tag{cursor:pointer;transition:background .2s,border-color .2s}
+button.tag:hover{background:rgba(245,158,11,.16);border-color:rgba(245,158,11,.55)}
+.ai-viz{flex:1;min-height:180px;margin:4px -6px}
+.ai-viz svg{width:100%;height:100%}
+.ai-viz .edge{stroke:rgba(0,240,255,.18);stroke-width:1}
+.ai-viz .flow{stroke:var(--accent-cyber);stroke-width:1.4;stroke-dasharray:6 120;stroke-dashoffset:0;opacity:0}
+.bx-ai:hover .ai-viz .flow{opacity:1;animation:flow 1.8s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-126}}
+.ai-viz .nd{fill:#0A0E17;stroke:rgba(0,240,255,.55);stroke-width:1.2;transition:fill .3s}
+.bx-ai:hover .ai-viz .nd{fill:rgba(0,240,255,.25)}
+.ai-viz text{font-family:var(--font-mono);font-size:10px;fill:var(--text-muted)}
+.mini-term{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);background:rgba(0,0,0,.3);border:1px solid var(--border-subtle);border-radius:8px;padding:10px 12px;line-height:1.7}
+.mini-term .c-ne{color:var(--accent-neural)}
+.jam-note{display:flex;align-items:center;gap:10px;font-size:13.5px;color:#FCD34D}
+.jam-note svg{width:18px;height:18px;flex-shrink:0}
+.com-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;margin-top:auto}
+.com-list button{
+  width:100%;display:flex;align-items:center;gap:12px;padding:9px 10px;margin:0 -10px;width:calc(100% + 20px);
+  border:0;background:transparent;border-radius:9px;text-align:left;color:var(--text-secondary);font-size:14px;transition:background .2s,color .2s;
+}
+.com-list button:hover{background:rgba(255,255,255,.05);color:var(--text-primary)}
+.com-list .code{font-family:var(--font-mono);font-size:11px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);border-radius:5px;padding:1px 6px;flex-shrink:0}
+.com-list .cnt{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+.ev-tabs{display:flex;gap:6px;padding:6px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--border-subtle);width:max-content;max-width:100%;overflow-x:auto;margin-bottom:18px}
+.ev-tab{
+  display:flex;align-items:center;gap:10px;height:42px;padding:0 16px;border-radius:10px;border:0;background:transparent;
+  color:var(--text-secondary);font-weight:600;font-size:14.5px;white-space:nowrap;transition:background .25s,color .25s;
+}
+.ev-tab .mono{font-size:11px;color:var(--text-muted)}
+.ev-tab[aria-selected="true"]{background:rgba(255,255,255,.07);color:var(--text-primary);box-shadow:inset 0 0 0 1px var(--border-strong)}
+.ev-tab[aria-selected="true"] .mono{color:var(--tc)}
+.ev-panel{padding:clamp(22px,3.5vw,40px);display:none}
+.ev-panel.on{display:block;animation:panelIn .45s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}}
+.ev-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px)}
+.ev-panel h3{font-family:var(--font-display);font-size:clamp(28px,3.4vw,42px);letter-spacing:-.03em;line-height:1.05;margin:0 0 14px}
+.ev-panel .lead{color:var(--text-secondary);margin:0 0 24px;max-width:56ch}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-subtle);border:1px solid var(--border-subtle);border-radius:var(--r-md);overflow:hidden;margin-bottom:24px}
+.facts div{background:var(--bg-surface);padding:14px 16px}
+.facts dt{font-size:12.5px;color:var(--text-muted)}
+.facts dd{margin:2px 0 0;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.02em}
+.facts dl{display:contents}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.cd{border:1px solid rgba(245,158,11,.25);background:rgba(245,158,11,.05);border-radius:var(--r-md);padding:16px 10px 12px;text-align:center}
+.cd b{display:block;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:clamp(28px,3.4vw,40px);font-weight:500;color:var(--accent-amber);line-height:1}
+.cd span{font-size:12px;color:var(--text-muted)}
+.cd-note{font-size:13px;color:var(--text-muted);margin:0 0 22px}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:1px;background:linear-gradient(var(--accent-amber),rgba(245,158,11,.1))}
+.timeline li{position:relative;padding:0 0 18px 40px}
+.timeline li::before{content:attr(data-n);position:absolute;left:0;top:1px;width:23px;height:23px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--accent-amber);color:var(--accent-amber);font-family:var(--font-mono);font-size:11px;display:grid;place-items:center}
+.timeline b{display:block;font-weight:600}
+.timeline span{color:var(--text-secondary);font-size:14.5px}
+.jury{display:flex;gap:8px;margin:6px 0 24px}
+.jury i{flex:1;aspect-ratio:1;max-width:58px;border-radius:12px;border:1px dashed rgba(245,158,11,.4);display:grid;place-items:center;font-style:normal;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+.sub-h{font-size:14px;font-weight:600;margin:0 0 10px;color:var(--text-primary)}
+
+/* CTF */
+.ctf-board{display:flex;flex-direction:column;gap:10px}
+.ctf-score{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:var(--r-md);background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.2);margin-bottom:6px}
+.ctf-score b{font-family:var(--font-mono);font-size:26px;color:var(--accent-cyber);font-weight:500}
+.ctf-score span{font-size:13px;color:var(--text-secondary)}
+.chal{border:1px solid var(--border-subtle);border-radius:var(--r-md);background:rgba(5,7,11,.5);overflow:hidden;transition:border-color .3s}
+.chal.solved{border-color:rgba(16,185,129,.45)}
+.chal summary{list-style:none;display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}
+.chal summary::-webkit-details-marker{display:none}
+.chal .cat{font-family:var(--font-mono);font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid var(--border-strong);color:var(--text-secondary)}
+.chal .nm{font-weight:600}
+.chal .pts{margin-left:auto;font-family:var(--font-mono);font-size:13px;color:var(--accent-cyber)}
+.chal.solved .pts{color:var(--accent-neural)}
+.chal.solved .pts::after{content:"  çözüldü"}
+.chal-body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+.chal-body p{margin:0;font-size:14.5px;color:var(--text-secondary)}
+.cipher{font-family:var(--font-mono);font-size:13px;padding:10px 12px;border-radius:8px;background:#03050A;border:1px solid var(--border-subtle);color:#A5F3FC;word-break:break-all;user-select:all}
+.flag-form{display:flex;gap:8px}
+.flag-form input{flex:1;min-width:0;height:40px;padding:0 12px;border-radius:9px;border:1px solid var(--border-strong);background:#03050A;font-family:var(--font-mono);font-size:13px}
+.flag-form input:focus{outline:none;border-color:var(--accent-cyber)}
+.flag-msg{font-family:var(--font-mono);font-size:12.5px;min-height:1.2em;margin:0}
+.flag-msg.ok{color:var(--accent-neural)}.flag-msg.no{color:#FB7185}
+
+/* Proje fabrikası */
+.prog-pick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.prog{font-family:var(--font-mono);font-size:12.5px;padding:7px 12px;border-radius:9px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.03);color:var(--text-secondary);transition:all .2s}
+.prog[aria-pressed="true"]{border-color:rgba(16,185,129,.6);color:#A7F3D0;background:rgba(16,185,129,.1)}
+.prog-info{padding:18px;border-radius:var(--r-md);border:1px solid rgba(16,185,129,.25);background:rgba(16,185,129,.05);margin-bottom:24px}
+.prog-info h4{margin:0 0 6px;font-family:var(--font-display);font-size:19px;letter-spacing:-.02em}
+.prog-info p{margin:0;color:var(--text-secondary);font-size:14.5px}
+.prog-info .who{margin-top:10px;font-size:13px;color:#A7F3D0}
+.road{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.road button{
+  width:100%;display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;text-align:left;
+  padding:12px 14px;border-radius:12px;border:1px solid var(--border-subtle);background:rgba(5,7,11,.45);transition:border-color .25s,background .25s;
+}
+.road .n{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-family:var(--font-mono);font-size:12px;border:1px solid var(--border-strong);color:var(--text-secondary)}
+.road .t{font-weight:600;font-size:15px}
+.road .chev{width:16px;height:16px;color:var(--text-muted);transition:transform .3s}
+.road .d{grid-column:2 / -1;color:var(--text-secondary);font-size:14px;display:none}
+.road button[aria-expanded="true"]{border-color:rgba(16,185,129,.45);background:rgba(16,185,129,.06)}
+.road button[aria-expanded="true"] .n{background:var(--accent-neural);color:#03140D;border-color:transparent}
+.road button[aria-expanded="true"] .d{display:block}
+.road button[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.road button.done .n{border-color:rgba(16,185,129,.6);color:var(--accent-neural)}
+
+/* =========================================================
+   KADRO
+   ========================================================= */
+.org{display:flex;align-items:center;gap:0;margin-bottom:28px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.org-node{
+  display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border-radius:12px;
+  border:1px solid var(--border-subtle);background:rgba(10,14,23,.7);text-align:left;min-width:max-content;transition:border-color .2s,background .2s;
+}
+.org-node:hover,.org-node.on{border-color:var(--border-glow);background:rgba(0,240,255,.05)}
+.org-node .mono{font-size:10.5px;color:var(--text-muted)}
+.org-node b{font-size:13.5px;font-weight:600}
+.org-link{width:28px;height:1px;background:linear-gradient(90deg,var(--border-strong),rgba(0,240,255,.4));flex-shrink:0}
+.org-coms{display:flex;gap:8px;padding-left:0}
+.org-row{display:flex;align-items:center}
+.roster-bar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.r-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.r-tab{height:36px;padding:0 13px;border-radius:9px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.025);color:var(--text-secondary);font-size:13.5px;font-weight:500;transition:all .2s;white-space:nowrap}
+.r-tab:hover{color:var(--text-primary)}
+.r-tab[aria-selected="true"]{background:var(--text-primary);color:#05070B;border-color:transparent}
+.search{position:relative;flex:0 1 280px}
+.search input{width:100%;height:40px;padding:0 12px 0 38px;border-radius:10px;border:1px solid var(--border-strong);background:rgba(5,7,11,.6);font-size:14px}
+.search input:focus{outline:none;border-color:var(--accent-cyber)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-muted)}
+.com-desc{display:none;padding:16px 18px;margin-bottom:18px;border-radius:var(--r-md);border:1px solid color-mix(in srgb,var(--c,#00F0FF) 30%,transparent);background:color-mix(in srgb,var(--c,#00F0FF) 6%,transparent)}
+.com-desc.on{display:block}
+.com-desc b{display:block;font-family:var(--font-display);font-size:18px;letter-spacing:-.02em}
+.com-desc span{color:var(--text-secondary);font-size:14.5px}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.advisor{
+  grid-column:1 / -1;display:flex;align-items:center;gap:18px;padding:20px 22px;
+  border-radius:var(--r-lg);border:1px solid rgba(0,240,255,.25);
+  background:linear-gradient(100deg,rgba(0,240,255,.07),rgba(16,23,38,.6) 60%);
+}
+.advisor .av{width:56px;height:56px;font-size:17px}
+.advisor .av.photo{width:76px;height:76px;border-radius:18px}
+.advisor .who b{font-family:var(--font-display);font-size:20px;letter-spacing:-.02em;display:block}
+.advisor .who span{color:var(--text-secondary);font-size:14px}
+.advisor .mono{margin-left:auto;font-size:11px;color:var(--accent-cyber)}
+.mem{padding:16px;display:flex;gap:14px;align-items:flex-start;border-radius:var(--r-md);animation:memIn .4s var(--ease) both;animation-delay:calc(var(--i,0) * 30ms)}
+@keyframes memIn{from{opacity:0;transform:translateY(6px)}}
+.av{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;
+  font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--c);
+  background:color-mix(in srgb,var(--c) 10%,#0A0E17);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);
+  overflow:hidden;
+}
+.av.photo{width:56px;height:56px;border-radius:14px;padding:0}
+.leaders{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.mem.lead{padding:22px;align-items:center;gap:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 9%,transparent),var(--bg-elevated) 55%);border-color:color-mix(in srgb,var(--c) 28%,transparent)}
+.mem.lead .av{width:76px;height:76px;border-radius:18px;font-size:20px}
+.mem.lead .mem-info b{font-family:var(--font-display);font-size:20px;letter-spacing:-.02em;margin-top:4px}
+.lead-role{display:inline-block;font-size:12.5px;font-weight:600;color:var(--c);padding:3px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
+@media (max-width:960px){.leaders{grid-template-columns:1fr}}
+.mem.chair{border-color:color-mix(in srgb,var(--c) 40%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 8%,transparent),var(--bg-elevated) 60%)}
+.chair-role{color:var(--c);font-weight:600}
+.av.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.mem-info{min-width:0}
+.mem-info b{display:block;font-weight:600;font-size:15px;line-height:1.3}
+.mem-info .role{display:block;color:var(--text-secondary);font-size:13.5px;line-height:1.4;margin-top:2px}
+.mem-codes{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.mem-codes span{font-family:var(--font-mono);font-size:10.5px;padding:1px 6px;border-radius:5px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
+mark{background:rgba(0,240,255,.22);color:inherit;border-radius:3px;padding:0 1px}
+.empty{grid-column:1 / -1;padding:40px;text-align:center;border:1px dashed var(--border-strong);border-radius:var(--r-lg);color:var(--text-secondary)}
+.empty button{margin-top:12px}
+.roster-count{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin:14px 0 0}
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+.quiz{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:0;overflow:hidden}
+.quiz-side{padding:clamp(24px,3.5vw,40px);border-right:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:18px;background:linear-gradient(160deg,rgba(0,240,255,.06),transparent 60%)}
+.quiz-side h3{font-family:var(--font-display);font-size:clamp(26px,3vw,36px);letter-spacing:-.03em;line-height:1.08;margin:0}
+.quiz-side p{margin:0;color:var(--text-secondary)}
+.q-prog{margin-top:auto}
+.q-prog .mono{font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between}
+.q-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:8px;overflow:hidden}
+.q-track i{display:block;height:100%;background:var(--accent-cyber);width:0;transition:width .5s var(--ease);box-shadow:0 0 10px var(--accent-cyber)}
+.quiz-main{padding:clamp(24px,3.5vw,40px);min-height:430px;display:flex;flex-direction:column}
+.q-text{font-family:var(--font-display);font-size:clamp(21px,2.2vw,26px);letter-spacing:-.02em;line-height:1.25;margin:0 0 22px;font-weight:600}
+.q-opts{display:flex;flex-direction:column;gap:8px}
+.q-opt{
+  display:flex;gap:14px;align-items:center;text-align:left;padding:14px 16px;border-radius:12px;
+  border:1px solid var(--border-subtle);background:rgba(5,7,11,.45);font-size:15px;transition:border-color .2s,background .2s,transform .2s var(--ease);
+}
+.q-opt:hover{border-color:var(--border-glow);background:rgba(0,240,255,.05)}
+.q-opt kbd{font-family:var(--font-mono);font-size:11px;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;border:1px solid var(--border-strong);color:var(--text-muted);flex-shrink:0}
+.q-opt.picked{border-color:var(--accent-cyber);background:rgba(0,240,255,.1)}
+.q-nav{display:flex;justify-content:space-between;margin-top:auto;padding-top:22px}
+.q-step{animation:panelIn .4s var(--ease)}
+.res-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.res-head .code{font-family:var(--font-mono);font-size:13px;padding:6px 10px;border-radius:8px;color:var(--c);border:1px solid var(--c)}
+.res-title{font-family:var(--font-display);font-size:clamp(24px,2.6vw,32px);letter-spacing:-.03em;line-height:1.1;margin:0 0 10px}
+.res-bars{display:flex;flex-direction:column;gap:9px;margin:22px 0}
+.rb{display:grid;grid-template-columns:42px 1fr 44px;gap:12px;align-items:center;font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+.rb .bar{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.rb .bar i{display:block;height:100%;background:var(--c);width:var(--w);border-radius:3px;animation:fill .9s var(--ease) both}
+.rb.top{color:var(--text-primary)}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.foot{margin-top:clamp(90px,12vw,150px);border-top:1px solid var(--border-subtle);background:linear-gradient(to bottom,rgba(10,14,23,.6),var(--bg-void))}
+.foot-cta{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:56px 0;border-bottom:1px solid var(--border-subtle)}
+.foot-cta h2{font-family:var(--font-display);font-size:clamp(28px,3.6vw,44px);letter-spacing:-.03em;line-height:1.05;margin:0;max-width:20ch}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding:44px 0}
+.foot-grid h4{margin:0 0 12px;font-size:13px;color:var(--text-muted);font-weight:500}
+.foot-grid p,.foot-grid li{margin:0;color:var(--text-secondary);font-size:14.5px}
+.foot-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot-grid a{text-decoration:none}.foot-grid a:hover{color:var(--accent-cyber)}
+.foot-club{display:flex;gap:18px;align-items:flex-start}
+.foot-logo{width:72px;height:72px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 10px 40px -10px rgba(0,240,255,.35)}
+.mail-link{font-family:var(--font-mono);font-size:13.5px;color:var(--accent-cyber) !important}
+.sysbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 0 28px;border-top:1px solid var(--border-subtle);font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+.sys-status{display:flex;align-items:center;gap:10px;color:#A7F3D0}
+.sys-cores{display:flex;gap:4px}
+.sys-cores i{width:6px;height:14px;border-radius:2px;background:var(--accent-neural);opacity:.85;animation:blink 2.4s ease-in-out infinite}
+.sys-cores i:nth-child(2){animation-delay:.3s}.sys-cores i:nth-child(3){animation-delay:.6s}.sys-cores i:nth-child(4){animation-delay:.9s}
+@keyframes blink{50%{opacity:.35}}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+dialog.modal{
+  width:min(640px,calc(100% - 24px));max-height:calc(100dvh - 32px);padding:0;border:1px solid var(--border-strong);border-radius:22px;
+  background:rgba(10,14,23,.94);color:var(--text-primary);overflow:hidden;
+  box-shadow:0 50px 120px -30px rgba(0,0,0,.9),0 0 0 1px rgba(0,240,255,.08);
+}
+dialog.modal[open]{display:flex;flex-direction:column;animation:modalIn .35s var(--ease)}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.98)}}
+dialog.modal::backdrop{background:rgba(2,4,8,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px 24px 16px;border-bottom:1px solid var(--border-subtle)}
+.m-head h2{font-family:var(--font-display);font-size:24px;letter-spacing:-.03em;margin:0;line-height:1.15}
+.m-head p{margin:4px 0 0;color:var(--text-secondary);font-size:14px}
+.m-close{width:36px;height:36px;border-radius:10px;border:1px solid var(--border-subtle);background:transparent;display:grid;place-items:center;flex-shrink:0}
+.m-close:hover{border-color:var(--border-strong)}
+.m-body{padding:20px 24px 24px;overflow-y:auto}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-row{display:flex;flex-direction:column;gap:6px}
+.f-row.full{grid-column:1 / -1}
+.f-row label,.f-row legend{font-size:13.5px;font-weight:600;color:var(--text-primary)}
+.f-row .opt{font-weight:400;color:var(--text-muted)}
+.f-row input,.f-row select,.f-row textarea{
+  width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--border-strong);background:#05070B;font-size:15px;
+}
+.f-row textarea{resize:vertical;min-height:84px}
+.f-row select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2394A3B8' stroke-width='1.6'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.f-row input:focus,.f-row select:focus,.f-row textarea:focus{outline:none;border-color:var(--accent-cyber);box-shadow:0 0 0 3px rgba(0,240,255,.15)}
+.f-row input[aria-invalid="true"]{border-color:#FB7185}
+.f-err{font-size:12.5px;color:#FB7185;min-height:0}
+fieldset.f-row{border:0;padding:0;margin:0}
+.int-chips{display:flex;flex-wrap:wrap;gap:6px}
+.int-chips label{font-weight:500;font-size:13px;color:var(--text-secondary);cursor:pointer}
+.int-chips input{position:absolute;opacity:0;pointer-events:none}
+.int-chips span{display:inline-block;padding:6px 11px;border-radius:8px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.03);transition:all .2s}
+.int-chips input:checked + span{border-color:rgba(0,240,255,.55);color:#A5F3FC;background:rgba(0,240,255,.09)}
+.int-chips input:focus-visible + span{outline:2px solid var(--accent-cyber);outline-offset:2px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-secondary);cursor:pointer}
+.consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--accent-cyber);flex-shrink:0}
+.m-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.m-done{text-align:left}
+.m-done .ok-ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.4);color:var(--accent-neural);margin-bottom:14px}
+.m-done h3{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;margin:0 0 6px}
+.m-done p{color:var(--text-secondary);margin:0 0 16px;font-size:14.5px}
+.summary{font-family:var(--font-mono);font-size:12.5px;white-space:pre-wrap;background:#03050A;border:1px solid var(--border-subtle);border-radius:10px;padding:14px;color:var(--text-secondary);max-height:220px;overflow:auto;margin-bottom:16px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:100;padding:10px 16px;border-radius:10px;background:#0F1726;border:1px solid var(--border-strong);font-size:14px;transition:all .3s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* =========================================================
+   REVEAL (scroll)
+   ========================================================= */
+.js [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--d,0) * 70ms)}
+.js [data-reveal].in{opacity:1;transform:none}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1080px){
+  .nav-links a{padding:8px 9px;font-size:14px}
+  .status-badge .txt-long{display:none}
+}
+@media (max-width:960px){
+  .nav-links{
+    position:absolute;top:calc(100% + 8px);left:0;right:0;flex-direction:column;gap:2px;padding:8px;margin:0;
+    background:rgba(8,12,20,.96);border:1px solid var(--border-subtle);border-radius:14px;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:none;
+  }
+  .nav.open .nav-links{display:flex}
+  .nav-links a{padding:12px 14px;font-size:15px}
+  .nav-toggle{display:inline-flex}
+  .nav-right{margin-left:auto}
+  .hero{padding-top:112px}
+  .hero-grid{grid-template-columns:1fr}
+  .decode{grid-template-columns:repeat(4,1fr)}
+  .decode-lead{grid-column:1 / -1;border-right:0;border-bottom:1px solid var(--border-subtle);max-width:none;padding:18px 0}
+  .sec-head{grid-template-columns:1fr}
+  .bx-ai,.bx-rd{grid-column:span 12}
+  .bx-cyber,.bx-game,.bx-edu,.bx-ind,.bx-com,.bx-oss{grid-column:span 6}
+  .bx-ai{grid-row:auto}
+  .ev-grid{grid-template-columns:1fr}
+  .news{grid-template-columns:1fr}
+  .quiz{grid-template-columns:1fr}
+  .quiz-side{border-right:0;border-bottom:1px solid var(--border-subtle)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid > :first-child{grid-column:1 / -1}
+}
+@media (max-width:640px){
+  .nav{padding:8px 8px 8px 12px;top:10px;width:calc(100% - 20px)}
+  .brand-ver{display:none}
+  .status-badge{display:none}
+  .nav-right .btn{height:38px;padding:0 12px;font-size:13.5px}
+  .bx-cyber,.bx-game,.bx-edu,.bx-ind,.bx-com,.bx-oss{grid-column:span 12}
+  .bx{padding:22px}
+  .decode{grid-template-columns:repeat(2,1fr)}
+  .dc:nth-child(3){border-right:0}
+  .dc{border-bottom:1px solid var(--border-subtle)}
+  .term-body{height:260px}
+  .cores{grid-template-columns:repeat(2,1fr)}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:last-child{grid-column:1 / -1}
+  .f-grid{grid-template-columns:1fr}
+  .search{flex:1 1 100%}
+  .foot-grid{grid-template-columns:1fr}
+  .advisor{flex-wrap:wrap}
+  .advisor .mono{margin-left:0;width:100%}
+  .countdown{gap:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .js [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ATACORE logo işareti (kulüp logosundan vektöre çevrildi) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="atacore-mark" viewBox="0 0 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="5.2" stroke-linejoin="miter">
+      <path d="M43 21.5 L21.5 34 L21.5 43.5"/><path d="M21.5 56.5 L21.5 66 L43 78.5"/>
+      <path d="M57 21.5 L78.5 34 L78.5 43.5"/><path d="M78.5 56.5 L78.5 66 L57 78.5"/>
+      <path d="M50 32.5 L65.2 41.25 L65.2 58.75 L50 67.5 L34.8 58.75 L34.8 41.25 Z"/>
+      <path d="M50 32.5 V14 M50 67.5 V86 M34.8 50 H14 M65.2 50 H86" stroke-width="4.2"/>
+      <circle cx="50" cy="9.5" r="4.6" stroke-width="3.6"/><circle cx="50" cy="90.5" r="4.6" stroke-width="3.6"/>
+      <circle cx="9.5" cy="50" r="4.6" stroke-width="3.6"/><circle cx="90.5" cy="50" r="4.6" stroke-width="3.6"/>
+    </g>
+    <path class="mark-core" d="M50 41 L57.8 45.5 L57.8 54.5 L50 59 L42.2 54.5 L42.2 45.5 Z" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<!-- =========================== NAVBAR =========================== -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="ATACORE ana sayfa">
+    <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><use href="#atacore-mark"/></svg>
+    <span class="brand-text">
+      <span class="brand-name">ATACORE</span>
+      <span class="brand-ver">v2026.1 // OLTU_CAMPUS</span>
+    </span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#duyurular">Duyurular</a></li>
+    <li><a href="#alanlar">Faaliyet alanları</a></li>
+    <li><a href="#etkinlikler">Etkinlikler</a></li>
+    <li><a href="#kadro">Kadro</a></li>
+    <li><a href="#eslestirici">Komite eşleştirici</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="status-badge" title="2026-2027 dönemi üye başvuruları açık"><span class="pulse" aria-hidden="true"></span><span>Dönem<span class="txt-long"> Başvuruları</span> Açık</span></span>
+    <button class="btn btn-primary btn-sm" data-join>Komiteye Katıl</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+<!-- =========================== HERO =========================== -->
+<section class="hero" aria-labelledby="heroTitle">
+  <canvas id="neural" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-org" data-reveal><span class="mono">●</span><span>Atatürk Üniversitesi ATACORE Yapay Zeka, Yazılım ve Ar-Ge Kulübü</span></p>
+        <h1 id="heroTitle" data-reveal style="--d:1">Oltu'da fikirler <span class="l2">çekirdekte birleşir.</span></h1>
+        <p class="manifesto" data-reveal style="--d:2">ATACORE, Oltu Yerleşkesi'nde <strong>yapay zeka, siber güvenlik, oyun geliştirme ve Ar-Ge</strong> üzerine üretmek isteyen öğrencileri aynı masada buluşturur. Atölyede öğreniriz, komitede üretiriz, yarışmada sınarız.</p>
+        <div class="hero-actions" data-reveal style="--d:3">
+          <button class="btn btn-primary" data-join>Komiteye Katıl</button>
+          <a class="btn" href="#eslestirici">Sana uygun komiteyi bul</a>
+        </div>
+        <dl class="hero-meta" data-reveal style="--d:4">
+          <div><dt>Akademik danışman</dt><dd>Dr. Öğr. Üyesi Önder Yıldırım</dd></div>
+          <div><dt>Yerleşke</dt><dd>Oltu, Erzurum</dd></div>
+          <div><dt>İcra komitesi</dt><dd class="mono">4</dd></div>
+        </dl>
+      </div>
+
+      <!-- CLI -->
+      <div class="term" id="term" data-reveal style="--d:2" role="region" aria-label="ATACORE etkileşimli komut satırı">
+        <div class="term-head">
+          <div class="term-title"><span class="pulse" aria-hidden="true"></span><span><b>atacore</b> core monitor</span></div>
+          <span class="term-clock" id="termClock">--:--:-- TRT</span>
+        </div>
+        <div class="cores" id="cores"></div>
+        <div class="term-body" id="termOut" aria-live="polite"></div>
+        <form class="term-input" id="termForm" autocomplete="off">
+          <label for="termIn">misafir@atacore:~$</label>
+          <input id="termIn" type="text" spellcheck="false" autocapitalize="off" placeholder="atacore --help">
+        </form>
+        <div class="term-chips" aria-label="Hazır komutlar">
+          <button class="chip" data-cmd="atacore --status">--status</button>
+          <button class="chip" data-cmd="atacore --committees">--committees</button>
+          <button class="chip" data-cmd="atacore --events">--events</button>
+          <button class="chip" data-cmd="atacore --join">--join</button>
+          <button class="chip" data-cmd="atacore --help">--help</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="decode" data-reveal aria-label="ATACORE adının açılımı">
+      <div class="decode-lead"><b>ATA + CORE</b>Sibernetik, Optimizasyon, Araştırma ve Mühendislik Merkezi</div>
+      <div class="dc"><div class="dc-l">C</div><div class="dc-en">Cybernetics</div><div class="dc-tr">Sibernetik</div></div>
+      <div class="dc"><div class="dc-l">O</div><div class="dc-en">Optimization</div><div class="dc-tr">Optimizasyon</div></div>
+      <div class="dc"><div class="dc-l">R</div><div class="dc-en">Research</div><div class="dc-tr">Araştırma</div></div>
+      <div class="dc"><div class="dc-l">E</div><div class="dc-en">Engineering</div><div class="dc-tr">Mühendislik</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== DUYURULAR =========================== -->
+<section class="sec" id="duyurular" aria-labelledby="newsTitle" style="padding-top:clamp(64px,8vw,104px)">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2 id="newsTitle">Duyurular</h2>
+      <p>Etkinlikler, atölyeler, yarışma çağrıları ve başvuru tarihleri. Yönetim kurulu yeni bir duyuru eklediğinde burada görünür.</p>
+    </div>
+    <div class="news" id="news" data-reveal aria-live="polite" aria-busy="true">
+      <div class="glass nf"><div class="skel" style="height:14px;width:30%"></div><div class="skel" style="height:40px;width:80%"></div><div class="skel" style="height:14px;width:90%"></div><div class="skel" style="height:14px;width:70%"></div></div>
+      <div class="nl"><div class="glass ni"><div class="skel" style="height:54px"></div><div class="skel" style="height:54px"></div></div><div class="glass ni"><div class="skel" style="height:54px"></div><div class="skel" style="height:54px"></div></div></div>
+    </div>
+    <div class="news-foot"><span id="newsCount"></span><span id="newsSrc"></span></div>
+  </div>
+</section>
+
+<!-- =========================== ALANLAR (BENTO) =========================== -->
+<section class="sec" id="alanlar" aria-labelledby="alanTitle">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2 id="alanTitle">Sekiz alan, tek çekirdek</h2>
+      <p>Kulüp tüzüğündeki faaliyet alanları. Bir alanla başlarsın; projeler, yarışmalar ve komiteler seni diğerlerine bağlar.<span class="mono">tüzük m.1 – m.8</span></p>
+    </div>
+
+    <div class="bento">
+      <article class="glass spot bx bx-ai" data-reveal data-tilt>
+        <div class="bx-top"><span class="art">m.1</span><span class="tag cy">çekirdek alan</span></div>
+        <h3>Yapay Zeka & Veri Bilimi</h3>
+        <p>Makine öğrenmesinden büyük dil modellerine: veriyi temizler, modeli eğitir, sonucu bir projeye ya da yarışmaya taşırız.</p>
+        <div class="ai-viz" aria-hidden="true">
+          <svg viewBox="0 0 420 190" preserveAspectRatio="xMidYMid meet" id="aiViz"></svg>
+        </div>
+        <div class="tags">
+          <span class="tag cy">Machine Learning</span><span class="tag cy">Deep Learning</span><span class="tag cy">NLP</span>
+          <span class="tag cy">Computer Vision</span><span class="tag cy">LLM</span><span class="tag cy">Generative AI</span>
+        </div>
+      </article>
+
+      <article class="glass spot bx bx-cyber" data-reveal data-tilt style="--d:1">
+        <div class="bx-top"><span class="art">m.2</span></div>
+        <h3>Siber Güvenlik & Ağ Teknolojileri</h3>
+        <p>Sızma testleri, ağ güvenliği ve kriptografi; Red/Blue Team simülasyonları ve CTF yarışmaları.</p>
+        <div class="mini-term"><span class="c-ne">$</span> atacore --flag ATACORE{...}<br>bayrağı bulan, puanı alır.</div>
+        <div class="tags"><span class="tag">Pentest</span><span class="tag">Red/Blue Team</span><span class="tag">Kriptografi</span><span class="tag">AI destekli güvenlik</span><span class="tag cy">CTF</span></div>
+      </article>
+
+      <article class="glass spot bx bx-game" data-reveal data-tilt style="--d:2">
+        <div class="bx-top"><span class="art">m.3</span></div>
+        <h3>Yazılım & Oyun Geliştirme</h3>
+        <p>Unity ve Unreal Engine ile 2D/3D oyun mekanikleri, NPC yapay zekası; web, mobil, masaüstü ve otomasyon yazılımları.</p>
+        <div class="jam-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4ZM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg>Üniversite geneli ödüllü Game Jam, 5 kişilik jüri</div>
+        <div class="tags"><span class="tag am">Unity</span><span class="tag am">Unreal Engine</span><span class="tag">2D/3D</span><span class="tag">NPC AI</span><span class="tag">Web/Mobil</span></div>
+      </article>
+
+      <article class="glass spot bx bx-rd" data-reveal data-tilt>
+        <div class="bx-top"><span class="art">m.4</span><span class="tag am">yarışma & hibe</span></div>
+        <h3>Ar-Ge, Proje & Yarışma Takımları</h3>
+        <p>Fikrini bir başvuru dosyasına, başvurunu bir prototipe dönüştürürüz. Programa tıkla, Proje Fabrikası'nda yol haritasını gör.</p>
+        <div class="tags">
+          <button class="tag am" data-prog="2209a">TÜBİTAK 2209-A</button>
+          <button class="tag am" data-prog="2209b">TÜBİTAK 2209-B</button>
+          <button class="tag am" data-prog="2242">TÜBİTAK 2242</button>
+          <button class="tag am" data-prog="unides">GSB ÜNİDES</button>
+          <button class="tag am" data-prog="teknofest">TEKNOFEST</button>
+          <span class="tag">Hackathon</span><span class="tag">Ideathon</span><span class="tag">Kaggle</span><span class="tag ne">Milli Teknoloji Kulüpler Birliği</span>
+        </div>
+      </article>
+
+      <article class="glass spot bx bx-edu" data-reveal data-tilt style="--d:1">
+        <div class="bx-top"><span class="art">m.5</span></div>
+        <h3>Eğitim Kampları & Teknik Atölyeler</h3>
+        <p>Bootcamp'ler, akran öğrenimi ve kodlama geceleri. Bilen anlatır, öğrenen bir sonrakinde anlatır.</p>
+        <div class="tags"><span class="tag ne">Python</span><span class="tag ne">C#</span><span class="tag ne">C++</span><span class="tag ne">Linux</span><span class="tag ne">Git/GitHub</span><span class="tag">coding nights</span></div>
+      </article>
+
+      <article class="glass spot bx bx-ind" data-reveal data-tilt>
+        <div class="bx-top"><span class="art">m.6</span></div>
+        <h3>Sektör Buluşmaları & Kariyer</h3>
+        <p>Teknoloji zirveleri, mühendislik söyleşileri, savunma sanayii ve teknokent teknik gezileri.</p>
+        <div class="tags"><span class="tag">Zirve</span><span class="tag">Panel</span><span class="tag">Savunma sanayii</span><span class="tag">Teknokent</span></div>
+      </article>
+
+      <article class="glass spot bx bx-com" data-reveal data-tilt style="--d:1">
+        <div class="bx-top"><span class="art">m.7</span></div>
+        <h3>Alt Komiteler & Çevik Çalışma</h3>
+        <p>Agile/Scrum ile çalışan dört icra komitesi. Birine tıkla, kadrosunu gör.</p>
+        <ul class="com-list" id="comList"></ul>
+      </article>
+
+      <article class="glass spot bx bx-oss" data-reveal data-tilt style="--d:2">
+        <div class="bx-top"><span class="art">m.8</span></div>
+        <h3>Dijital Yayıncılık & Açık Kaynak</h3>
+        <p>Kulüp GitHub organizasyonu, teknik blog ve bülten, gerçek etkinliklerden fotoğraf ve video galerisi.</p>
+        <div class="tags"><span class="tag">GitHub</span><span class="tag">Teknik blog</span><span class="tag">Bülten</span><span class="tag">PR galerisi</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== ETKİNLİKLER =========================== -->
+<section class="sec" id="etkinlikler" aria-labelledby="evTitle">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2 id="evTitle">Amiral gemisi etkinlikler</h2>
+      <p>Yıl boyunca atölyeler sürer; bu üçü ise kulübün vitrinidir. Oyun maratonu, bayrak yakalama ve proje başvuru hattı.</p>
+    </div>
+
+    <div class="ev-tabs" role="tablist" aria-label="Etkinlikler" data-reveal>
+      <button class="ev-tab" role="tab" id="tab-jam" aria-controls="p-jam" aria-selected="true" style="--tc:var(--accent-amber)"><span class="mono">48s</span>ATACORE Game Jam</button>
+      <button class="ev-tab" role="tab" id="tab-ctf" aria-controls="p-ctf" aria-selected="false" tabindex="-1" style="--tc:var(--accent-cyber)"><span class="mono">CTF</span>Cyber Arena</button>
+      <button class="ev-tab" role="tab" id="tab-fab" aria-controls="p-fab" aria-selected="false" tabindex="-1" style="--tc:var(--accent-neural)"><span class="mono">R&D</span>Proje Fabrikası</button>
+    </div>
+
+    <!-- Game Jam -->
+    <div class="glass ev-panel on" id="p-jam" role="tabpanel" aria-labelledby="tab-jam" data-reveal>
+      <div class="ev-grid">
+        <div>
+          <h3>ATACORE Game Jam</h3>
+          <p class="lead">Tema açılış anında duyurulur, takımlar 48 saat içinde oynanabilir bir oyun çıkarır. Üniversitenin tüm bölümlerine açık; kodlayan, çizen, ses tasarlayan herkes takım kurabilir.</p>
+          <dl class="facts">
+            <div><dt>Süre</dt><dd class="mono">48 saat</dd></div>
+            <div><dt>Jüri</dt><dd>5 kişi</dd></div>
+            <div><dt>Ödül havuzu</dt><dd style="font-size:16px">Sponsorlarla duyurulacak</dd></div>
+          </dl>
+          <p class="sub-h">Açılışa kalan süre</p>
+          <div class="countdown" id="countdown" aria-live="off">
+            <div class="cd"><b data-u="d">--</b><span>gün</span></div>
+            <div class="cd"><b data-u="h">--</b><span>saat</span></div>
+            <div class="cd"><b data-u="m">--</b><span>dakika</span></div>
+            <div class="cd"><b data-u="s">--</b><span>saniye</span></div>
+          </div>
+          <p class="cd-note" id="cdNote"></p>
+          <div class="hero-actions">
+            <button class="btn btn-amber" data-join data-interest="gamejam" data-committee="K2">Game Jam'e kayıt ol</button>
+          </div>
+        </div>
+        <div>
+          <p class="sub-h">Akış</p>
+          <ol class="timeline">
+            <li data-n="1"><b>Açılış ve tema</b><span>Tema duyurulur, takımlar kesinleşir.</span></li>
+            <li data-n="2"><b>48 saat geliştirme</b><span>Mentorlar sahada; ara kontrol noktalarında ilerleme paylaşılır.</span></li>
+            <li data-n="3"><b>Jüri sunumları</b><span>Her takım oyununu canlı oynatır, 5 kişilik jüri değerlendirir.</span></li>
+            <li data-n="4"><b>Ödül töreni</b><span>Kazananlar açıklanır, oyunlar kulüp galerisinde yayımlanır.</span></li>
+          </ol>
+          <p class="sub-h">Jüri</p>
+          <div class="jury" aria-label="5 jüri koltuğu, isimler açıklanacak"><i>J1</i><i>J2</i><i>J3</i><i>J4</i><i>J5</i></div>
+          <p class="cd-note" style="margin:0">Jüri üyeleri etkinlik duyurusuyla birlikte açıklanır.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTF -->
+    <div class="glass ev-panel" id="p-ctf" role="tabpanel" aria-labelledby="tab-ctf" hidden>
+      <div class="ev-grid">
+        <div>
+          <h3>Cyber Arena CTF</h3>
+          <p class="lead">Bayrak yakalama: her görevde <span class="mono c-cy">ATACORE{...}</span> biçiminde gizli bir metin var. Bulursan puan senin. Aşağıdaki üç görev gerçek yarışmanın küçük bir provası; tarayıcında çözülebilir.</p>
+          <dl class="facts">
+            <div><dt>Format</dt><dd>Jeopardy</dd></div>
+            <div><dt>Kategori</dt><dd>Web, Kripto, Forensics</dd></div>
+            <div><dt>Takım</dt><dd>Bireysel / ekip</dd></div>
+          </dl>
+          <p class="cd-note">İpucu: bayrağı terminalden de gönderebilirsin, <span class="mono c-pr">atacore --flag ATACORE{...}</span></p>
+          <div class="hero-actions"><button class="btn" data-join data-interest="ctf" data-committee="K2">CTF takımına katıl</button></div>
+        </div>
+        <div class="ctf-board">
+          <div class="ctf-score"><span>Skorun</span><b id="ctfScore">0</b></div>
+          <div id="chals"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proje Fabrikası -->
+    <div class="glass ev-panel" id="p-fab" role="tabpanel" aria-labelledby="tab-fab" hidden>
+      <div class="ev-grid">
+        <div>
+          <h3>Proje Fabrikası</h3>
+          <p class="lead">TÜBİTAK, ÜNİDES ve TEKNOFEST başvurularını tek başına göğüslemek zorunda değilsin. 3. ve 4. komiteler fikri ekibe, ekibi başvuru dosyasına dönüştürür.</p>
+          <p class="sub-h">Program seç</p>
+          <div class="prog-pick" id="progPick"></div>
+          <div class="prog-info" id="progInfo" aria-live="polite"></div>
+          <div class="hero-actions"><button class="btn" data-join data-interest="proje" data-committee="K3">Proje fikrini kaydet</button></div>
+        </div>
+        <div>
+          <p class="sub-h">Yol haritası</p>
+          <ol class="road" id="road"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== KADRO =========================== -->
+<section class="sec" id="kadro" aria-labelledby="kadroTitle">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2 id="kadroTitle">Organizasyon ve kadro</h2>
+      <p>Üst Kurul koordine eder, Yönetim ve Denetleme Kurulu yürütür, dört icra komitesi üretir. Şemadaki bir kutuya ya da sekmeye tıkla.</p>
+    </div>
+
+    <div class="org" id="org" data-reveal aria-label="Organizasyon şeması"></div>
+
+    <div class="roster-bar" data-reveal>
+      <div class="r-tabs" role="tablist" aria-label="Kadro filtresi" id="rTabs"></div>
+      <label class="search">
+        <span class="sr-only">İsim ara</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="rSearch" placeholder="İsim veya görev ara">
+      </label>
+    </div>
+    <div class="com-desc" id="comDesc"></div>
+    <div class="roster" id="roster" aria-live="polite"></div>
+    <p class="roster-count" id="rCount"></p>
+  </div>
+</section>
+
+<!-- =========================== QUIZ =========================== -->
+<section class="sec" id="eslestirici" aria-labelledby="quizTitle">
+  <div class="wrap">
+    <div class="glass quiz" data-reveal>
+      <div class="quiz-side">
+        <h3 id="quizTitle">Hangi komite sana uygun?</h3>
+        <p>Beş soru, yaklaşık bir dakika. Cevaplarına göre dört icra komitesinden en yakın olanı öneririz; istersen doğrudan başvurursun.</p>
+        <div class="q-prog">
+          <div class="mono"><span id="qLabel">Soru 1 / 5</span><span id="qPct">0%</span></div>
+          <div class="q-track"><i id="qBar"></i></div>
+        </div>
+      </div>
+      <div class="quiz-main" id="quizMain"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- =========================== FOOTER =========================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-cta">
+      <h2>Bu dönem çekirdeğe sen de katıl.</h2>
+      <div class="hero-actions"><button class="btn btn-primary" data-join>Komiteye Katıl</button><a class="btn" href="#eslestirici">Önce eşleştiriciyi dene</a></div>
+    </div>
+    <div class="foot-grid">
+      <div class="foot-club">
+        <img src="logo-192.png" alt="ATACORE logosu" width="72" height="72" class="foot-logo">
+        <div>
+          <p style="color:var(--text-primary);font-weight:600;margin-bottom:6px">Atatürk Üniversitesi ATACORE Yapay Zeka, Yazılım ve Ar-Ge Kulübü</p>
+          <p>Atatürk Üniversitesi, Oltu Yerleşkesi<br>Oltu, Erzurum</p>
+          <p style="margin-top:10px">Akademik danışman: Dr. Öğr. Üyesi Önder Yıldırım</p>
+          <p style="margin-top:10px"><a class="mail-link" href="mailto:atauni.atacore@gmail.com">atauni.atacore@gmail.com</a></p>
+        </div>
+      </div>
+      <div>
+        <h4>Sayfada</h4>
+        <ul>
+          <li><a href="#duyurular">Duyurular</a></li>
+          <li><a href="#alanlar">Faaliyet alanları</a></li>
+          <li><a href="#etkinlikler">Etkinlikler</a></li>
+          <li><a href="#kadro">Kadro</a></li>
+          <li><a href="#eslestirici">Komite eşleştirici</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Komiteler</h4>
+        <ul id="footComs"></ul>
+      </div>
+    </div>
+    <div class="sysbar">
+      <span class="sys-status"><span class="sys-cores" aria-hidden="true"><i></i><i></i><i></i><i></i></span>SYSTEM STATUS: ALL CORES OPERATIONAL</span>
+      <span>© <span id="year">2026</span> ATACORE, Oltu Yerleşkesi</span>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================== MODAL =========================== -->
+<dialog class="modal" id="joinDialog" aria-labelledby="mTitle">
+  <div class="m-head">
+    <div>
+      <h2 id="mTitle">Komiteye katıl</h2>
+      <p>2026-2027 dönemi üye başvurusu. Yönetim kurulu başvurunu inceleyip seninle iletişime geçer.</p>
+    </div>
+    <button class="m-close" id="mClose" aria-label="Kapat"><svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="1.8"><path d="m1 1 12 12M13 1 1 13"/></svg></button>
+  </div>
+  <div class="m-body">
+    <form id="joinForm" novalidate>
+      <!-- Spam botları için tuzak alan; gerçek kullanıcı görmez -->
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><label>Web sitesi<input id="fWeb" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="f-grid">
+        <div class="f-row"><label for="fName">Ad soyad</label><input id="fName" name="ad" autocomplete="name" required><span class="f-err" id="eName"></span></div>
+        <div class="f-row"><label for="fMail">E-posta</label><input id="fMail" name="eposta" type="email" autocomplete="email" required><span class="f-err" id="eMail"></span></div>
+        <div class="f-row"><label for="fDept">Bölüm / program</label><input id="fDept" name="bolum" required><span class="f-err" id="eDept"></span></div>
+        <div class="f-row"><label for="fYear">Sınıf</label>
+          <select id="fYear" name="sinif"><option>Hazırlık</option><option selected>1. sınıf</option><option>2. sınıf</option><option>3. sınıf</option><option>4. sınıf</option><option>Yüksek lisans</option></select>
+        </div>
+        <div class="f-row full"><label for="fCom">Tercih ettiğin komite</label>
+          <select id="fCom" name="komite"></select>
+        </div>
+        <fieldset class="f-row full">
+          <legend>İlgi alanların <span class="opt">(birden fazla seçebilirsin)</span></legend>
+          <div class="int-chips" id="intChips"></div>
+        </fieldset>
+        <div class="f-row full"><label for="fNote">Kendinden kısaca bahset <span class="opt">(isteğe bağlı)</span></label><textarea id="fNote" name="not" placeholder="Daha önce yaptığın bir proje, öğrenmek istediğin bir konu…"></textarea></div>
+        <div class="f-row full">
+          <label class="consent"><input type="checkbox" id="fKvkk" required><span>Bilgilerimin yalnızca kulüp üyelik başvurusu kapsamında işlenmesini kabul ediyorum.</span></label>
+          <span class="f-err" id="eKvkk"></span>
+        </div>
+      </div>
+      <div class="m-foot">
+        <button type="button" class="btn btn-ghost" id="mCancel">Vazgeç</button>
+        <button type="submit" class="btn btn-primary" id="mSubmit">Başvuruyu gönder</button>
+      </div>
+    </form>
+    <div class="m-done" id="joinDone" hidden></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* =========================================================
+   AYARLAR — yayına almadan önce burayı düzenleyin
+   ========================================================= */
+const CONFIG = {
+  // Game Jam açılış tarihi (ISO, Türkiye saati). Kesin tarih belli olunca güncelleyin; null bırakılırsa "duyurulacak" gösterilir.
+  gameJamStart: null,
+  // Google Apps Script web uygulaması adresi (https://script.google.com/macros/s/.../exec).
+  // Hem duyuruları okur hem başvuruları tabloya yazar. Kurulum: KURULUM.md
+  // Boş bırakılırsa: aşağıdaki varsayılan duyurular gösterilir, başvuru özeti e-postayla gönderilir.
+  appsScriptUrl: '', // Yayındaki adres güvenlik nedeniyle depoda yer almaz. Kurulum: google-apps-script/KURULUM.md
+  // Kulübün iletişim e-postası
+  contactEmail: 'atauni.atacore@gmail.com'
+};
+
+// Tablo bağlı değilken ya da tabloya ulaşılamazken gösterilen duyurular.
+const DEFAULT_NEWS = [
+  { tarih:'2026-10-21', baslik:'2026-2027 dönemi üye başvuruları açık', etiket:'Duyuru', sabit:'evet',
+    aciklama:'Dört icra komitesine başvurular sürüyor. Hangi komitenin sana uygun olduğunu eşleştiriciyle bul, ardından başvuru formunu doldur.',
+    link:'#basvur', link_metni:'Başvuru formunu aç' }
+];
+
+/* =========================================================
+   VERİ
+   ========================================================= */
+const ADVISOR = { name:'Önder Yıldırım', title:'Dr. Öğr. Üyesi', role:'Akademik Danışman', foto:'foto/onder-yildirim.jpg' };
+
+const COMMITTEES = {
+  K1:{ code:'K1', n:1, name:'Sosyal Medya, Tasarım ve Organizasyon Komitesi', short:'Medya & Org.', tab:'1. Komite: Medya & Org.', color:'#00F0FF',
+       focus:'Kurumsal iletişim, görsel tasarım, PR, zirve ve etkinlik yönetimi.' },
+  K2:{ code:'K2', n:2, name:'Oyun ve Yazılım Geliştirme Komitesi', short:'Oyun & Yazılım', tab:'2. Komite: Oyun & Yazılım', color:'#F59E0B',
+       focus:'Unity & Unreal Engine, Game Jam organizasyonu, web/mobil geliştirme, AI ve siber güvenlik (CTF) teknik altyapısı.' },
+  K3:{ code:'K3', n:3, name:'Proje Geliştirme Komitesi (A Grubu)', short:'Proje (A)', tab:'3. Komite: Proje (A)', color:'#10B981',
+       focus:'TÜBİTAK 2209-A/B, ÜNİDES, TEKNOFEST ve disiplinlerarası Ar-Ge projeleri.' },
+  K4:{ code:'K4', n:4, name:'Proje Geliştirme Komitesi (B Grubu)', short:'Proje (B)', tab:'4. Komite: Proje (B)', color:'#34D399',
+       focus:'TÜBİTAK 2209-A/B, ÜNİDES, TEKNOFEST ve yenilikçi mühendislik projeleri.' }
+};
+const BOARD_COLOR = '#E2E8F0';
+const GROUP_LABEL = { UK:'Üst Kurul', YK:'Yönetim Kurulu', DK:'Denetleme Kurulu', K1:'1. Komite', K2:'2. Komite', K3:'3. Komite', K4:'4. Komite' };
+
+// Her kişi tek kayıt; birden fazla görev "roles" içinde.
+const PEOPLE = [
+  { name:'Ebubekir Şahin',        roles:[['UK','Başkan'],['YK','Başkan']], lead:1 },
+  { name:'Mehmet Erturul',        roles:[['UK','Genel Sekreter & İç Denetim Sorumlusu'],['YK','Genel Sekreter']] },
+  { name:'Alperen Kaya',          roles:[['YK','Başkan Yardımcısı'],['K2','Komite Başkanı']], foto:'foto/alperen-kaya.jpg', lead:2 },
+  { name:'Nihat Çavdar',          roles:[['YK','Sayman'],['K2','Komite üyesi']] },
+  { name:'Osman Arda Gülbakan',   roles:[['DK','Denetleme Kurulu Başkanı'],['K2','Komite üyesi']], lead:3 },
+  { name:'Halil İbrahim Arslan',  roles:[['YK','Yönetim Kurulu Asil Üyesi'],['K1','Komite Başkanı']] },
+  { name:'Kaan Arda Göğdemir',    roles:[['YK','Yönetim Kurulu Asil Üyesi'],['K3','Komite Başkanı']] },
+  { name:'Ahmet Yasin Yakut',     roles:[['YK','Yönetim Kurulu Asil Üyesi'],['K1','Komite üyesi']] },
+  { name:'Gülsüm Tanış',          roles:[['K1','Komite üyesi']] },
+  { name:'Hakan Genç',            roles:[['K1','Komite üyesi']] },
+  { name:'Osman Tarcan',          roles:[['K1','Komite üyesi']] },
+  { name:'Yusuf Eymen Kıyak',     roles:[['K2','Komite üyesi']] },
+  { name:'Emre Akdan',            roles:[['K3','Komite üyesi']] },
+  { name:'Muhammet Sait Karahan', roles:[['K3','Komite üyesi']] },
+  { name:'Kadir Efe Özkaya',      roles:[['K3','Komite üyesi']] },
+  { name:'Ahmet Gökhan Yılmaz',   roles:[['K3','Komite üyesi']] },
+  { name:'İrem Su Bakar',         roles:[['K4','Komite üyesi']] },
+  { name:'Şevval Bakır',          roles:[['K4','Komite Başkanı']] },
+  { name:'Nuri Kerim Yılmaz',     roles:[['K4','Komite üyesi']] },
+  { name:'Mustafa Gerçek',        roles:[['K4','Komite üyesi']] }
+];
+const inGroup = (p,g) => p.roles.some(r => r[0]===g);
+const isChair = (p,k) => p.roles.some(r => r[0]===k && r[1]==='Komite Başkanı');
+// Komite listelerinde komite başkanı her zaman ilk sırada
+const committeeMembers = k => PEOPLE.filter(p => inGroup(p,k)).sort((a,b) => isChair(b,k) - isChair(a,k));
+// Görev etiketi: komite görevleri numarayla yazılır ("2. Komite Başkanı", "3. Komite üyesi")
+const roleLabel = r => COMMITTEES[r[0]] ? `${COMMITTEES[r[0]].n}. Komite ${r[1]==='Komite Başkanı' ? 'Başkanı' : 'üyesi'}` : r[1];
+
+const INTERESTS = [
+  ['ai','Yapay zeka & veri bilimi'],['siber','Siber güvenlik'],['oyun','Oyun & yazılım'],['proje','Ar-Ge & proje'],
+  ['egitim','Eğitim & atölye'],['kariyer','Sektör & kariyer'],['medya','Tasarım & medya'],['oss','Açık kaynak'],
+  ['gamejam','Game Jam'],['ctf','CTF']
+];
+
+/* =========================================================
+   YARDIMCILAR
+   ========================================================= */
+const $ = (s,el=document) => el.querySelector(s);
+const $$ = (s,el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(pointer: fine)').matches;
+const norm = s => s.toLocaleLowerCase('tr').replace(/ı/g,'i').normalize('NFD').replace(/[̀-ͯ]/g,'');
+const initials = n => { const p = n.split(' '); return (p[0][0] + p[p.length-1][0]).toLocaleUpperCase('tr'); };
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem(k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2400); }
+function fnv(s){ let h=0x811c9dc5; for(const c of s){ h^=c.codePointAt(0); h=Math.imul(h,0x01000193)>>>0; } return h.toString(16); }
+$('#year').textContent = new Date().getFullYear();
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+(() => {
+  const nav = $('#nav'), tog = $('#navToggle');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  tog.addEventListener('click', () => { const o = nav.classList.toggle('open'); tog.setAttribute('aria-expanded', o); tog.setAttribute('aria-label', o?'Menüyü kapat':'Menüyü aç'); });
+  $$('#navLinks a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); tog.setAttribute('aria-expanded', false); }));
+  // aktif bölüm
+  const links = $$('#navLinks a');
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
+  }), {rootMargin:'-45% 0px -50% 0px'});
+  ['duyurular','alanlar','etkinlikler','kadro','eslestirici'].forEach(id => io.observe(document.getElementById(id)));
+})();
+
+/* =========================================================
+   NEURAL CORE CANVAS
+   ========================================================= */
+(() => {
+  const cv = $('#neural'), ctx = cv.getContext('2d');
+  let W=0, H=0, dpr=1, nodes=[], pulses=[], running=true, lastPulse=0;
+  const mouse = {x:-9999, y:-9999, active:false};
+  const LINK = 150, MR = 190;
+
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count = Math.round(Math.min(120, Math.max(36, W*H/13000)));
+    nodes = Array.from({length:count}, () => ({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28,
+      r:Math.random()*1.4+.8, hue:Math.random()<.12 ? 'n' : (Math.random()<.06 ? 'a' : 'c')
+    }));
+    pulses = [];
+    if (reduceMotion) draw(0);
+  }
+  const col = {c:'0,240,255', n:'16,185,129', a:'245,158,11'};
+
+  function step(){
+    for (const p of nodes){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = W+20; if (p.x > W+20) p.x = -20;
+      if (p.y < -20) p.y = H+20; if (p.y > H+20) p.y = -20;
+      if (mouse.active){
+        const dx = mouse.x-p.x, dy = mouse.y-p.y, d = Math.hypot(dx,dy);
+        if (d < MR && d > 1){ const f = (1-d/MR)*.012; p.x += dx*f; p.y += dy*f; }
+      }
+    }
+  }
+  function draw(t){
+    ctx.clearRect(0,0,W,H);
+    // kenarlar
+    for (let i=0;i<nodes.length;i++){
+      const a = nodes[i];
+      for (let j=i+1;j<nodes.length;j++){
+        const b = nodes[j], dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy;
+        if (d2 < LINK*LINK){
+          const d = Math.sqrt(d2); let al = (1-d/LINK)*.22;
+          if (mouse.active){
+            const mx=(a.x+b.x)/2-mouse.x, my=(a.y+b.y)/2-mouse.y, md=Math.hypot(mx,my);
+            if (md < MR) al += (1-md/MR)*.45;
+          }
+          ctx.strokeStyle = `rgba(0,240,255,${al})`; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    // imleç bağlantıları
+    if (mouse.active){
+      for (const p of nodes){
+        const d = Math.hypot(p.x-mouse.x, p.y-mouse.y);
+        if (d < MR){ ctx.strokeStyle = `rgba(0,240,255,${(1-d/MR)*.5})`; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke(); }
+      }
+      const g = ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,MR);
+      g.addColorStop(0,'rgba(0,240,255,.10)'); g.addColorStop(1,'rgba(0,240,255,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(mouse.x,mouse.y,MR,0,Math.PI*2); ctx.fill();
+    }
+    // sinyaller (kenar boyunca ilerleyen nöral darbe)
+    for (let k=pulses.length-1;k>=0;k--){
+      const s = pulses[k]; s.t += s.v;
+      if (s.t >= 1){
+        // zincirleme: varış düğümünden bir komşuya devam
+        const nb = neighbor(s.b, s.a);
+        if (nb != null && s.hops < 4){ pulses[k] = {a:s.b, b:nb, t:0, v:s.v, hops:s.hops+1, c:s.c}; continue; }
+        pulses.splice(k,1); continue;
+      }
+      const A = nodes[s.a], B = nodes[s.b];
+      if (!A || !B){ pulses.splice(k,1); continue; }
+      const x = A.x+(B.x-A.x)*s.t, y = A.y+(B.y-A.y)*s.t;
+      ctx.fillStyle = `rgba(${col[s.c]},.95)`; ctx.shadowColor = `rgba(${col[s.c]},1)`; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.arc(x,y,1.8,0,Math.PI*2); ctx.fill(); ctx.shadowBlur = 0;
+    }
+    // düğümler
+    for (const p of nodes){
+      ctx.fillStyle = `rgba(${col[p.hue]},${p.hue==='c'?.75:.9})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    }
+    if (t - lastPulse > 320 && pulses.length < 14){
+      lastPulse = t;
+      const a = Math.floor(Math.random()*nodes.length), b = neighbor(a, -1);
+      if (b != null) pulses.push({a, b, t:0, v:.02+Math.random()*.02, hops:0, c:Math.random()<.2?'n':'c'});
+    }
+  }
+  function neighbor(i, not){
+    const a = nodes[i]; if (!a) return null;
+    const c = [];
+    for (let j=0;j<nodes.length;j++){ if (j===i||j===not) continue; const b=nodes[j]; if ((a.x-b.x)**2+(a.y-b.y)**2 < LINK*LINK) c.push(j); }
+    return c.length ? c[Math.floor(Math.random()*c.length)] : null;
+  }
+  function loop(t){ if (!running) return; step(); draw(t); requestAnimationFrame(loop); }
+
+  const hero = cv.parentElement;
+  hero.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; mouse.active = true; });
+  hero.addEventListener('pointerleave', () => { mouse.active = false; });
+  addEventListener('resize', () => { clearTimeout(resize._t); resize._t = setTimeout(resize, 150); });
+  resize();
+  if (!reduceMotion){
+    const io = new IntersectionObserver(([e]) => { const was = running; running = e.isIntersecting && !document.hidden; if (running && !was) requestAnimationFrame(loop); });
+    io.observe(hero);
+    document.addEventListener('visibilitychange', () => { const was = running; running = !document.hidden; if (running && !was) requestAnimationFrame(loop); });
+    requestAnimationFrame(loop);
+  }
+})();
+
+/* =========================================================
+   ATACORE CLI
+   ========================================================= */
+const CLI = (() => {
+  const out = $('#termOut'), form = $('#termForm'), input = $('#termIn');
+  let hist = store.get('atacore.hist', []), hIdx = hist.length, busy = false;
+  const queue = [];
+
+  // Çekirdek monitörü: komite başına üye sayısı
+  const maxM = Math.max(...Object.keys(COMMITTEES).map(k => committeeMembers(k).length));
+  $('#cores').innerHTML = Object.values(COMMITTEES).map(c => {
+    const n = committeeMembers(c.code).length;
+    return `<button class="core" style="--c:${c.color};--w:${Math.round(n/maxM*100)}%" data-filter="${c.code}" title="${esc(c.name)}">
+      <span class="core-top"><b>${c.code}</b><span>${n} üye</span></span><span class="core-bar"><i></i></span></button>`;
+  }).join('');
+  $$('#cores .core').forEach(b => b.addEventListener('click', () => Roster.show(b.dataset.filter, true)));
+
+  // Saat
+  const clock = $('#termClock');
+  const fmt = new Intl.DateTimeFormat('tr-TR',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Europe/Istanbul',hour12:false});
+  const tick = () => clock.textContent = fmt.format(new Date()) + ' TRT';
+  tick(); setInterval(tick, 1000);
+
+  function line(html, cls=''){
+    const d = document.createElement('div'); d.className = 'tl ' + cls; d.innerHTML = html; out.appendChild(d); out.scrollTop = out.scrollHeight; return d;
+  }
+  const wait = ms => new Promise(r => setTimeout(r, reduceMotion ? 0 : ms));
+  async function print(lines, gap=28){ for (const [h,c] of lines){ line(h,c); await wait(gap); } }
+  async function typeLine(text, cls){
+    const d = line('', cls);
+    if (reduceMotion){ d.textContent = text; return; }
+    for (let i=1;i<=text.length;i++){ d.textContent = text.slice(0,i); await wait(14); }
+  }
+
+  const pad = (s,n) => (s + ' '.repeat(n)).slice(0,n);
+  const COMMANDS = {
+    help: () => [
+      ['Kullanılabilir komutlar:', 'c-pr'],
+      [`  <span class="c-cy">atacore --status</span>      kulüp ve çekirdek durumu`],
+      [`  <span class="c-cy">atacore --committees</span>  4 icra komitesi ve kadroları`],
+      [`  <span class="c-cy">atacore --events</span>      amiral gemisi etkinlikler`],
+      [`  <span class="c-cy">atacore --news</span>        son duyurular`],
+      [`  <span class="c-cy">atacore --join</span>        başvuru formunu aç`],
+      [`  <span class="c-cy">atacore --flag</span> <span class="c-mu">BAYRAK</span>  Cyber Arena bayrağı gönder`],
+      [`  <span class="c-cy">clear</span>                 ekranı temizle`],
+      ['  ↑ ↓ geçmiş, Tab otomatik tamamlama', 'dim']
+    ],
+    status: () => {
+      const n = PEOPLE.length;
+      return [
+        ['ATACORE çekirdek durumu', 'c-pr'],
+        [`  ${pad('kurum',11)}Atatürk Üniversitesi, Oltu Yerleşkesi`],
+        [`  ${pad('danışman',11)}Dr. Öğr. Üyesi Önder Yıldırım`],
+        [`  ${pad('başkan',11)}Ebubekir Şahin`],
+        [`  ${pad('kadro',11)}<span class="c-cy">${n}</span> üye, <span class="c-cy">4</span> icra komitesi`],
+        [`  ${pad('dönem',11)}<span class="c-ne">2026-2027 başvuruları açık</span>`],
+        [`  ${pad('çekirdek',11)}<span class="c-ne">[■■■■]</span> 4/4 aktif`],
+        [`  ${pad('ctf skoru',11)}${CTF.score()} puan`]
+      ];
+    },
+    committees: () => {
+      const L = [['İcra komiteleri', 'c-pr']];
+      for (const c of Object.values(COMMITTEES)){
+        L.push([`  <span style="color:${c.color}">${c.code}</span>  ${esc(c.name)}`]);
+        L.push([`      ${committeeMembers(c.code).map(p=>esc(p.name)).join(', ')}`, 'dim']);
+      }
+      L.push(['Kadroyu filtrelemek için çekirdek çubuklarına tıkla.', 'dim']);
+      return L;
+    },
+    events: () => {
+      const cd = Countdown.text();
+      return [
+        ['Amiral gemisi etkinlikler', 'c-pr'],
+        [`  <span class="c-am">GAME JAM</span>     48 saat, 5 kişilik jüri, ödül havuzu`],
+        [`               açılış: <span class="c-am">${esc(cd)}</span>`, 'dim'],
+        [`  <span class="c-cy">CYBER ARENA</span>  CTF, Web / Kripto / Forensics`],
+        [`               prova görevleri sitede açık`, 'dim'],
+        [`  <span class="c-ne">FABRİKA</span>      TÜBİTAK 2209-A/B, 2242, ÜNİDES, TEKNOFEST`],
+        [`               başvuru ve mentorluk yol haritası`, 'dim']
+      ];
+    },
+    news: () => {
+      const L = News.list();
+      if (!L.length) return [['Şu an yayında duyuru yok.', 'dim']];
+      return [['Son duyurular', 'c-pr'], ...L.slice(0,5).flatMap(x => [
+        [`  <span class="c-cy">›</span> ${esc(x.baslik)}`],
+        [`    ${esc(x.etiket)}${x.date ? ', ' + esc(News.when(x)) : ''}`, 'dim']
+      ]), ['Ayrıntılar için sayfadaki Duyurular bölümüne bak.', 'dim']];
+    },
+    join: () => { setTimeout(() => Join.open({}), reduceMotion ? 0 : 500); return [['<span class="c-ne">✓</span> Başvuru formu açılıyor…']]; },
+    flag: args => {
+      const f = args.join(' ').trim();
+      if (!f) return [['Kullanım: atacore --flag ATACORE{...}', 'warn']];
+      const r = CTF.submit(f);
+      if (r.ok) return [[`<span class="c-ne">✓ Doğru bayrak.</span> "${esc(r.name)}" çözüldü, +${r.pts} puan. Toplam: ${CTF.score()}`]];
+      if (r.dup) return [[`Bu bayrak zaten çözüldü: ${esc(r.name)}`, 'warn']];
+      return [['✗ Yanlış bayrak. Biçim: ATACORE{...}', 'err']];
+    },
+    whoami: () => [['misafir@oltu, henüz bir komitede değilsin. <span class="c-cy">atacore --join</span> ile başla.']],
+    sudo: () => [['Yetki reddedildi: bu işlem Üst Kurul onayı gerektirir.', 'err']]
+  };
+  const ALL = ['atacore --status','atacore --committees','atacore --events','atacore --news','atacore --join','atacore --help','atacore --flag ','clear','whoami'];
+
+  async function run(raw){
+    raw = raw.trim(); if (!raw) return;
+    if (busy){ queue.push(raw); return; }
+    busy = true;
+    line(`<span class="p">$</span> ${esc(raw)}`, 'cmd');
+    hist = hist.filter(h => h!==raw).concat(raw).slice(-30); hIdx = hist.length; store.set('atacore.hist', hist);
+    let tok = raw.split(/\s+/);
+    if (tok[0].toLowerCase() === 'atacore') tok.shift();
+    if (!tok.length){ tok = ['--help']; }
+    const name = tok[0].toLowerCase().replace(/^-+/,'');
+    const args = tok.slice(1);
+    if (name === 'clear' || name === 'cls'){ out.innerHTML = ''; }
+    else if (COMMANDS[name]){ await print(COMMANDS[name](args)); }
+    else {
+      const guess = Object.keys(COMMANDS).find(k => k.startsWith(name.slice(0,2)));
+      await print([[`komut bulunamadı: ${esc(raw)}`, 'err'], [guess ? `Bunu mu demek istedin: <span class="c-cy">atacore --${guess}</span>` : `Komutları görmek için <span class="c-cy">atacore --help</span> yaz.`, 'dim']]);
+    }
+    line('', '');
+    busy = false;
+    if (queue.length) run(queue.shift());
+  }
+
+  form.addEventListener('submit', e => { e.preventDefault(); const v = input.value; input.value = ''; run(v); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp'){ e.preventDefault(); if (hIdx > 0){ hIdx--; input.value = hist[hIdx]; } }
+    else if (e.key === 'ArrowDown'){ e.preventDefault(); if (hIdx < hist.length-1){ hIdx++; input.value = hist[hIdx]; } else { hIdx = hist.length; input.value = ''; } }
+    else if (e.key === 'Tab'){
+      const v = input.value.toLowerCase(); if (!v) return;
+      const m = ALL.filter(c => c.startsWith(v) || c.replace('atacore ','').startsWith(v));
+      if (m.length){ e.preventDefault(); input.value = m.length===1 ? m[0] : m.reduce((a,b)=>{let i=0;while(i<a.length&&a[i]===b[i])i++;return a.slice(0,i)}); }
+    }
+  });
+  out.addEventListener('click', () => { if (!getSelection().toString()) input.focus({preventScroll:true}); });
+  $$('.chip[data-cmd]').forEach(b => b.addEventListener('click', () => run(b.dataset.cmd)));
+
+  // Açılış
+  (async () => {
+    await typeLine('ATACORE core monitor v2026.1', 'c-pr');
+    await print([
+      ['<span class="t">[ ok ]</span> nöral çekirdek yüklendi', 'ok'],
+      [`<span class="t">[ ok ]</span> ${PEOPLE.length} üye, 4 icra komitesi çevrimiçi`, 'ok'],
+      ['<span class="t">[ ok ]</span> dönem başvuruları açık', 'ok'],
+      ['', ''],
+      ['Bir komut yaz ya da aşağıdaki kısayollara tıkla. Başlamak için <span class="c-cy">atacore --help</span>', 'dim'],
+      ['', '']
+    ], 120);
+  })();
+
+  return { run };
+})();
+
+/* =========================================================
+   BENTO: AI görseli, tilt + spotlight, komite listesi
+   ========================================================= */
+(() => {
+  // Katmanlı ağ şeması (SVG)
+  const svg = $('#aiViz'), layers = [3,5,5,2], W = 420, H = 190, xs = [40,160,280,390];
+  const pos = layers.map((n,li) => Array.from({length:n}, (_,i) => [xs[li], H/2 + (i-(n-1)/2)*34]));
+  let s = '';
+  for (let l=0;l<layers.length-1;l++) for (const a of pos[l]) for (const b of pos[l+1]){
+    const d = `M${a[0]} ${a[1]} L${b[0]} ${b[1]}`;
+    s += `<path class="edge" d="${d}"/><path class="flow" d="${d}" style="animation-delay:${(Math.random()*1.8).toFixed(2)}s"/>`;
+  }
+  pos.forEach((L,li) => L.forEach(p => s += `<circle class="nd" cx="${p[0]}" cy="${p[1]}" r="${li===0||li===3?6:5}"/>`));
+  ['girdi','gizli','gizli','çıktı'].forEach((t,i) => s += `<text x="${xs[i]}" y="${H-2}" text-anchor="middle">${t}</text>`);
+  svg.innerHTML = s;
+
+  // Tilt + spotlight
+  $$('.spot').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      card.style.setProperty('--mx', x+'px'); card.style.setProperty('--my', y+'px');
+      if (card.hasAttribute('data-tilt') && finePointer && !reduceMotion){
+        const rx = ((y/r.height)-.5) * -6, ry = ((x/r.width)-.5) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateZ(0)`;
+      }
+    });
+    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+  });
+
+  // m.7 komite listesi
+  $('#comList').innerHTML = Object.values(COMMITTEES).map(c =>
+    `<li><button style="--c:${c.color}" data-filter="${c.code}"><span class="code">${c.code}</span>${esc(c.short)}<span class="cnt">${committeeMembers(c.code).length} üye</span></button></li>`).join('');
+  $$('#comList button').forEach(b => b.addEventListener('click', () => Roster.show(b.dataset.filter, true)));
+
+  // footer komiteler
+  $('#footComs').innerHTML = Object.values(COMMITTEES).map(c => `<li><a href="#kadro" data-filter="${c.code}">${c.n}. Komite: ${esc(c.short)}</a></li>`).join('');
+  $$('#footComs a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); Roster.show(a.dataset.filter, true); }));
+
+  // Ar-Ge program etiketleri → Proje Fabrikası
+  $$('[data-prog]').forEach(b => b.addEventListener('click', () => { Events.select('fab'); Fabrika.pick(b.dataset.prog); document.getElementById('etkinlikler').scrollIntoView({behavior: reduceMotion?'auto':'smooth'}); }));
+})();
+
+/* =========================================================
+   ETKİNLİK SEKMELERİ
+   ========================================================= */
+const Events = (() => {
+  const tabs = $$('.ev-tab');
+  function select(key, focus){
+    tabs.forEach(t => {
+      const on = t.id === 'tab-'+key;
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      const p = document.getElementById(t.getAttribute('aria-controls'));
+      p.hidden = !on; p.classList.toggle('on', on);
+      if (on){ p.classList.add('in'); if (focus) t.focus(); }
+    });
+  }
+  tabs.forEach((t,i) => {
+    t.addEventListener('click', () => select(t.id.slice(4)));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const n = tabs[(i + (e.key==='ArrowRight'?1:-1) + tabs.length) % tabs.length];
+      select(n.id.slice(4), true);
+    });
+  });
+  return { select };
+})();
+
+/* Geri sayım */
+const Countdown = (() => {
+  const start = CONFIG.gameJamStart ? new Date(CONFIG.gameJamStart) : null;
+  const els = {}; $$('#countdown [data-u]').forEach(b => els[b.dataset.u] = b);
+  const note = $('#cdNote');
+  const dfmt = new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Istanbul'});
+  const p2 = n => String(n).padStart(2,'0');
+  function parts(ms){ const s = Math.max(0, Math.floor(ms/1000)); return {d:Math.floor(s/86400), h:Math.floor(s%86400/3600), m:Math.floor(s%3600/60), s:s%60}; }
+  function text(){
+    if (!start || isNaN(start)) return 'tarih duyurulacak';
+    const now = Date.now(), end = start.getTime() + 48*3600e3;
+    if (now < start) { const p = parts(start-now); return `${p.d} gün ${p2(p.h)}:${p2(p.m)}:${p2(p.s)}`; }
+    if (now < end) return 'jam sürüyor';
+    return 'tamamlandı';
+  }
+  function tick(){
+    if (!start || isNaN(start)){ Object.values(els).forEach(e => e.textContent='--'); note.textContent = 'Tarih yönetim kurulu tarafından duyurulacak.'; return; }
+    const now = Date.now(), end = start.getTime() + 48*3600e3;
+    let p, label = $('#p-jam .sub-h');
+    if (now < start){ p = parts(start-now); label.textContent = 'Açılışa kalan süre'; note.textContent = 'Açılış: ' + dfmt.format(start) + ' (TSİ)'; }
+    else if (now < end){ p = parts(end-now); label.textContent = 'Jam sürüyor, teslime kalan'; note.textContent = 'Teslim: ' + dfmt.format(new Date(end)); }
+    else { p = {d:0,h:0,m:0,s:0}; label.textContent = 'Jam tamamlandı'; note.textContent = 'Bir sonraki Game Jam duyurusu için kulübü takip et.'; }
+    els.d.textContent = p2(p.d); els.h.textContent = p2(p.h); els.m.textContent = p2(p.m); els.s.textContent = p2(p.s);
+  }
+  tick(); setInterval(tick, 1000);
+  return { text };
+})();
+
+/* Cyber Arena CTF */
+const CTF = (() => {
+  const CH = [
+    { id:'kripto', cat:'Kripto', name:'Şifre değil, kodlama', pts:100, h:'2e34b4bb',
+      desc:'Bu metin şifrelenmemiş, sadece kodlanmış. Hangi kodlama olduğunu bul, çöz.', data:'QVRBQ09SRXtiYXNlNjRfc2lmcmVsZW1lX2RlZ2lsZGlyfQ==' },
+    { id:'sezar', cat:'Kripto', name:'Roma usulü', pts:150, h:'542fd8a7',
+      desc:'Her harf alfabede aynı miktarda kaydırılmış. Kaç adım? İpucu: 26\'nın yarısı.', data:'NGNPBER{frmne_unyn_lnfvlbe}' },
+    { id:'web', cat:'Web', name:'Kaynağa bak', pts:200, h:'5b0399ec',
+      desc:'Bu sayfanın kendisi bir görev. Tarayıcının "sayfa kaynağını görüntüle" özelliğini kullan; geliştiriciler bazen not bırakır.', data:null }
+  ];
+  let solved = store.get('atacore.ctf', []);
+  const box = $('#chals'), scoreEl = $('#ctfScore');
+  const score = () => CH.filter(c => solved.includes(c.id)).reduce((a,c) => a+c.pts, 0);
+  function render(){
+    box.innerHTML = CH.map(c => `
+      <details class="chal${solved.includes(c.id)?' solved':''}" data-id="${c.id}">
+        <summary><span class="cat">${c.cat}</span><span class="nm">${esc(c.name)}</span><span class="pts">${c.pts}</span></summary>
+        <div class="chal-body">
+          <p>${esc(c.desc)}</p>
+          ${c.data ? `<div class="cipher">${esc(c.data)}</div>` : ''}
+          <form class="flag-form" data-id="${c.id}">
+            <label class="sr-only" for="fl-${c.id}">Bayrak</label>
+            <input id="fl-${c.id}" placeholder="ATACORE{...}" spellcheck="false" autocomplete="off">
+            <button class="btn btn-sm">Gönder</button>
+          </form>
+          <p class="flag-msg" aria-live="polite"></p>
+        </div>
+      </details>`).join('');
+    scoreEl.textContent = score();
+    $$('.flag-form', box).forEach(f => f.addEventListener('submit', e => {
+      e.preventDefault();
+      const v = f.querySelector('input').value, msg = f.parentElement.querySelector('.flag-msg');
+      const r = submit(v, f.dataset.id);
+      if (r.ok){ toast(`Doğru bayrak, +${r.pts} puan`); }
+      else { msg.className = 'flag-msg no'; msg.textContent = r.dup ? 'Bu görev zaten çözüldü.' : 'Yanlış bayrak. Biçim: ATACORE{...}'; }
+    }));
+  }
+  function submit(flag, only){
+    const h = fnv(flag.trim());
+    const c = CH.find(x => x.h === h && (!only || x.id === only));
+    if (!c) return {ok:false};
+    if (solved.includes(c.id)) return {ok:false, dup:true, name:c.name};
+    solved.push(c.id); store.set('atacore.ctf', solved);
+    const open = $$('details', box).filter(d => d.open).map(d => d.dataset.id);
+    render();
+    open.forEach(id => { const d = $(`details[data-id="${id}"]`, box); if (d) d.open = true; });
+    const m = $(`details[data-id="${c.id}"] .flag-msg`, box); if (m){ m.className='flag-msg ok'; m.textContent = `Çözüldü, +${c.pts} puan.`; }
+    return {ok:true, name:c.name, pts:c.pts};
+  }
+  render();
+  return { submit, score };
+})();
+
+/* Proje Fabrikası */
+const Fabrika = (() => {
+  const PROGS = {
+    '2209a':{ k:'TÜBİTAK 2209-A', t:'Üniversite Öğrencileri Araştırma Projeleri Destekleme Programı',
+      d:'Lisans öğrencilerinin bir akademik danışmanla yürüttüğü araştırma projelerini destekler. Fikrin özgün, yöntemin net olması beklenir.', who:'Önerilen komite: 3. veya 4. Komite' },
+    '2209b':{ k:'TÜBİTAK 2209-B', t:'Sanayiye Yönelik Lisans Araştırma Projeleri Destekleme Programı',
+      d:'Son sınıf öğrencilerinin sanayi ile birlikte yürüttüğü bitirme projelerine yöneliktir; bir sanayi danışmanı da ekiptedir.', who:'Önerilen komite: 4. Komite' },
+    '2242':{ k:'TÜBİTAK 2242', t:'Üniversite Öğrencileri Araştırma Proje Yarışmaları',
+      d:'Öğrenci projelerinin bölge ve final aşamalarında jüri önünde yarıştığı program. Proje sunumu ve posteri en az proje kadar önemlidir.', who:'Önerilen komite: 3. Komite' },
+    'unides':{ k:'GSB ÜNİDES', t:'Gençlik ve Spor Bakanlığı ÜNİDES programı',
+      d:'Üniversite öğrenci topluluklarının sosyal ve kültürel nitelikteki projelerini destekler. Kulüp olarak başvurulur; etkinlik ve atölye projeleri için uygundur.', who:'Önerilen komite: 3. Komite ve 1. Komite birlikte' },
+    'teknofest':{ k:'TEKNOFEST', t:'Havacılık, Uzay ve Teknoloji Festivali yarışmaları',
+      d:'Yapay zeka, siber güvenlik, insansız sistemler ve daha birçok kategoride takım yarışmaları. Ön rapor, detay rapor ve final aşamalarından oluşur.', who:'Önerilen komite: 4. Komite, teknik destek için 2. Komite' }
+  };
+  const STEPS = [
+    ['Fikir ve ekip','Problemini bir cümleyle yaz, ihtiyacın olan becerileri listele. Komite toplantısında ekip arkadaşı bulursun.'],
+    ['Danışman ve programla eşleşme','Fikrine uygun programı (2209-A, 2242, TEKNOFEST…) birlikte seçeriz; akademik danışman arayışında yönlendiririz.'],
+    ['Ön çalışma','Literatür taraması, benzer çalışmalar ve küçük bir kavram kanıtı. Kulübün kod gecelerinde birlikte çalışılır.'],
+    ['Başvuru dosyası','Amaç, yöntem, iş-zaman planı ve bütçe. Deneyimli üyeler dosyanı başvurudan önce okur ve geri bildirim verir.'],
+    ['Uygulama ve raporlama','Destek ya da yarışma sürecinde düzenli ilerleme toplantıları; ara ve sonuç raporları.'],
+    ['Sergi ve paylaşım','Sonucu yarışmada, kulüp etkinliğinde ve açık kaynak deposunda paylaşırız.']
+  ];
+  const pickEl = $('#progPick'), info = $('#progInfo'), road = $('#road');
+  pickEl.innerHTML = Object.entries(PROGS).map(([id,p]) => `<button class="prog" data-id="${id}" aria-pressed="false">${esc(p.k)}</button>`).join('');
+  function pick(id){
+    const p = PROGS[id]; if (!p) return;
+    $$('.prog', pickEl).forEach(b => b.setAttribute('aria-pressed', b.dataset.id === id));
+    info.innerHTML = `<h4>${esc(p.k)}</h4><p style="margin-bottom:8px;color:var(--text-primary)">${esc(p.t)}</p><p>${esc(p.d)}</p><div class="who mono">${esc(p.who)}</div>`;
+  }
+  $$('.prog', pickEl).forEach(b => b.addEventListener('click', () => pick(b.dataset.id)));
+  road.innerHTML = STEPS.map(([t,d],i) => `<li><button aria-expanded="${i===0}"><span class="n">${i+1}</span><span class="t">${esc(t)}</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg><span class="d">${esc(d)}</span></button></li>`).join('');
+  const rb = $$('button', road);
+  rb.forEach((b,i) => b.addEventListener('click', () => {
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    rb.forEach((x,j) => { x.setAttribute('aria-expanded', open && j===i); x.classList.toggle('done', open && j<i); });
+  }));
+  pick('2209a');
+  return { pick };
+})();
+
+/* =========================================================
+   DUYURULAR (Google E-Tablolar → Apps Script → site)
+   ========================================================= */
+const bindSpot = el => el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); el.style.setProperty('--mx', (e.clientX-r.left)+'px'); el.style.setProperty('--my', (e.clientY-r.top)+'px'); });
+
+const News = (() => {
+  const box = $('#news'), cnt = $('#newsCount'), src = $('#newsSrc');
+  const AYLAR = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+  const dfull = new Intl.DateTimeFormat('tr-TR',{day:'numeric',month:'long',year:'numeric'});
+  const tfmt = new Intl.DateTimeFormat('tr-TR',{hour:'2-digit',minute:'2-digit',hour12:false});
+  let items = [], expanded = false;
+
+  // "2027-03-12", "2027-03-12T18:00", "12.03.2027", "12.03.2027 18:00" biçimlerini anlar
+  function parseDate(s){
+    s = String(s||'').trim(); let m;
+    if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[T ](\d{1,2}):(\d{2}))?/))) return {d:new Date(+m[1],m[2]-1,+m[3],+(m[4]||0),+(m[5]||0)), time:!!m[4]};
+    if ((m = s.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})(?:\s+(\d{1,2}):(\d{2}))?/))) return {d:new Date(+m[3],m[2]-1,+m[1],+(m[4]||0),+(m[5]||0)), time:!!m[4]};
+    return null;
+  }
+  const yes = v => /^(evet|e|true|1|x|✓)$/i.test(String(v||'').trim());
+  const TAG = t => { const n = norm(t||''); return n.includes('yarisma') ? 'var(--accent-amber)' : n.includes('etkinlik') ? 'var(--accent-cyber)' : (n.includes('atolye')||n.includes('egitim')) ? 'var(--accent-neural)' : '#CBD5E1'; };
+
+  function clean(list){
+    const now = Date.now();
+    return (list||[]).map(x => {
+      const p = parseDate(x.tarih);
+      return { baslik:String(x.baslik||'').trim(), aciklama:String(x.aciklama||'').trim(), etiket:String(x.etiket||'Duyuru').trim(),
+               link:String(x.link||'').trim(), link_metni:String(x.link_metni||'').trim(), sabit:yes(x.sabit),
+               date:p && p.d, time:p && p.time, future:!!(p && p.d.getTime() > now),
+               hidden: /^(hay[ıi]r|h|false|0)$/i.test(String(x.yayinda||'').trim()) };
+    }).filter(x => x.baslik && !x.hidden)
+      .sort((a,b) => (b.sabit-a.sabit) || (b.future-a.future) || (a.future ? a.date-b.date : (b.date||0)-(a.date||0)));
+  }
+  function action(x, cls){
+    const label = esc(x.link_metni || (x.link==='#basvur' ? 'Başvuru formunu aç' : 'Ayrıntılar'));
+    if (x.link === '#basvur') return `<button class="${cls}" data-news-join>${label}</button>`;
+    if (/^#[\w-]+$/.test(x.link)) return `<a class="${cls}" href="${esc(x.link)}">${label}</a>`;
+    if (/^https?:\/\//i.test(x.link)) return `<a class="${cls}" href="${esc(x.link)}" target="_blank" rel="noopener">${label}</a>`;
+    return '';
+  }
+  const when = x => !x.date ? '' : dfull.format(x.date) + (x.time ? ', ' + tfmt.format(x.date) : '');
+  const pin = `<svg class="n-pin" viewBox="0 0 16 16" fill="currentColor" aria-label="Sabitlenmiş"><path d="M9.8 1.3 14.7 6.2l-1.4.4-2.4 2.4.2 3.3-1.4 1.4L6.6 10.6 2.4 14.8l-.7-.7 4.2-4.2L2.8 6.8l1.4-1.4 3.3.2 2.4-2.4z"/></svg>`;
+
+  function render(){
+    box.setAttribute('aria-busy','false');
+    if (!items.length){ box.className = 'news single'; box.innerHTML = `<div class="news-empty">Şu an yayında duyuru yok. Yeni etkinlikler eklendiğinde burada görünecek.</div>`; cnt.textContent=''; return; }
+    const [f, ...rest] = items;
+    const shown = expanded ? rest : rest.slice(0,4);
+    box.className = 'news' + (rest.length ? '' : ' single');
+    box.innerHTML = `
+      <article class="glass spot nf" style="--spot:${TAG(f.etiket)}">
+        <div class="n-top"><span class="n-tag" style="--tc:${TAG(f.etiket)}">${esc(f.etiket)}</span>${f.date?`<time class="n-date" datetime="${f.date.toISOString()}">${esc(when(f))}</time>`:''}${f.future?'<span class="n-soon">yaklaşıyor</span>':''}${f.sabit?pin:''}</div>
+        <h3>${esc(f.baslik)}</h3>
+        ${f.aciklama?`<p>${esc(f.aciklama)}</p>`:''}
+        ${action(f,'btn btn-primary') ? `<div class="hero-actions">${action(f,'btn btn-primary')}</div>` : ''}
+      </article>
+      ${rest.length ? `<div class="nl">${shown.map(x => `
+        <article class="glass spot ni" style="--spot:${TAG(x.etiket)}">
+          <div class="ni-cal">${x.date ? `<b>${x.date.getDate()}</b><span>${AYLAR[x.date.getMonth()]}</span>` : `<b>•</b><span>&nbsp;</span>`}</div>
+          <div><div class="n-top"><span class="n-tag" style="--tc:${TAG(x.etiket)}">${esc(x.etiket)}</span>${x.future?'<span class="n-soon">yaklaşıyor</span>':''}${x.sabit?pin:''}</div>
+          <h4>${esc(x.baslik)}</h4>${x.aciklama?`<p>${esc(x.aciklama)}</p>`:''}${action(x,'n-link')}</div>
+        </article>`).join('')}
+        ${rest.length > 4 ? `<button class="btn btn-sm" id="newsMore">${expanded ? 'Daha az göster' : `Tüm duyurular (${items.length})`}</button>` : ''}</div>` : ''}`;
+    $$('[data-news-join]', box).forEach(b => b.addEventListener('click', () => Join.open({})));
+    $$('.spot', box).forEach(bindSpot);
+    const more = $('#newsMore'); if (more) more.addEventListener('click', () => { expanded = !expanded; render(); });
+    cnt.textContent = `${items.length} duyuru`;
+  }
+  function set(list, note){ items = clean(list); render(); src.textContent = note || ''; }
+
+  async function load(){
+    if (!CONFIG.appsScriptUrl){ set(DEFAULT_NEWS); return; }
+    const cached = store.get('atacore.news', null);
+    if (cached && cached.list) set(cached.list, 'son güncelleme ' + tfmt.format(new Date(cached.at)));
+    try {
+      const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), 9000);
+      const r = await fetch(CONFIG.appsScriptUrl + (CONFIG.appsScriptUrl.includes('?') ? '&' : '?') + 'tur=duyurular', {signal:ctrl.signal});
+      clearTimeout(to);
+      const j = await r.json();
+      if (!j || !Array.isArray(j.duyurular)) throw new Error('beklenmeyen yanıt');
+      store.set('atacore.news', {at:Date.now(), list:j.duyurular});
+      set(j.duyurular, 'son güncelleme ' + tfmt.format(new Date()));
+    } catch(err){
+      console.warn('[ATACORE] Duyurular tablodan okunamadı:', err);
+      if (!(cached && cached.list)) set(DEFAULT_NEWS);
+    }
+  }
+  load();
+  return { list: () => items, when };
+})();
+
+/* =========================================================
+   KADRO
+   ========================================================= */
+const Roster = (() => {
+  const FILTERS = [['all','Tümü'],['board','Üst Kurul & Yönetim'],...Object.values(COMMITTEES).map(c => [c.code, c.tab])];
+  let filter = 'all', q = '';
+  const tabsEl = $('#rTabs'), grid = $('#roster'), desc = $('#comDesc'), count = $('#rCount'), search = $('#rSearch');
+
+  tabsEl.innerHTML = FILTERS.map(([k,l]) => `<button class="r-tab" role="tab" data-f="${k}" aria-selected="${k==='all'}">${esc(l)}</button>`).join('');
+  $$('.r-tab', tabsEl).forEach(b => b.addEventListener('click', () => show(b.dataset.f)));
+
+  // Organizasyon şeması
+  $('#org').innerHTML = `
+    <button class="org-node" data-f="all"><span class="mono">DANIŞMAN</span><b>Dr. Öğr. Üyesi Önder Yıldırım</b></button><span class="org-link"></span>
+    <button class="org-node" data-f="board"><span class="mono">ÜST KURUL</span><b>Başkan & Genel Sekreter</b></button><span class="org-link"></span>
+    <button class="org-node" data-f="board"><span class="mono">YK + DK</span><b>Yönetim & Denetleme</b></button><span class="org-link"></span>
+    <div class="org-coms">${Object.values(COMMITTEES).map(c => `<button class="org-node" data-f="${c.code}" style="border-color:color-mix(in srgb,${c.color} 30%,transparent)"><span class="mono" style="color:${c.color}">${c.code}</span><b>${esc(c.short)}</b></button>`).join('')}</div>`;
+  $$('#org .org-node').forEach(b => b.addEventListener('click', () => show(b.dataset.f)));
+
+  const hl = (text) => {
+    if (!q) return esc(text);
+    const nt = norm(text), nq = norm(q), i = nt.indexOf(nq);
+    if (i < 0) return esc(text);
+    return esc(text.slice(0,i)) + '<mark>' + esc(text.slice(i, i+q.length)) + '</mark>' + esc(text.slice(i+q.length));
+  };
+  const colorOf = p => { const k = p.roles.find(r => COMMITTEES[r[0]]); return k ? COMMITTEES[k[0]].color : BOARD_COLOR; };
+  const codeColor = g => COMMITTEES[g] ? COMMITTEES[g].color : BOARD_COLOR;
+  const codeLabel = g => COMMITTEES[g] ? g : g;
+
+  function render(){
+    $$('.r-tab', tabsEl).forEach(b => b.setAttribute('aria-selected', b.dataset.f === filter));
+    $$('#org .org-node').forEach(b => b.classList.toggle('on', b.dataset.f === filter && filter !== 'all'));
+    const c = COMMITTEES[filter];
+    desc.classList.toggle('on', !!c);
+    if (c){ desc.style.setProperty('--c', c.color); desc.innerHTML = `<b>${c.n}. Komite: ${esc(c.name)}</b><span>${esc(c.focus)}</span>`; }
+
+    let list = PEOPLE.filter(p => filter==='all' ? true : filter==='board' ? p.roles.some(r => ['UK','YK','DK'].includes(r[0])) : inGroup(p, filter));
+    if (COMMITTEES[filter]) list.sort((a,b) => isChair(b,filter) - isChair(a,filter));
+    if (q){ const nq = norm(q); list = list.filter(p => norm(p.name).includes(nq) || p.roles.some(r => norm(roleLabel(r)).includes(nq))); }
+
+    let html = '';
+    const showAdv = (filter==='all' || filter==='board') && (!q || norm('Önder Yıldırım akademik danışman').includes(norm(q)));
+    if (showAdv) html += `<div class="advisor">${ADVISOR.foto
+      ? `<span class="av photo" style="--c:#00F0FF"><img src="${esc(ADVISOR.foto)}" alt="${esc(ADVISOR.title+' '+ADVISOR.name)}" loading="lazy" onerror="this.parentNode.classList.remove('photo');this.parentNode.textContent='ÖY'"></span>`
+      : `<span class="av" style="--c:#00F0FF">ÖY</span>`}<div class="who"><b>${hl(ADVISOR.title+' '+ADVISOR.name)}</b><span>${hl(ADVISOR.role)}</span></div><span class="mono">ADVISOR // AKADEMİK</span></div>`;
+
+    // Başkanlık üçlüsü (Başkan, Başkan Yardımcısı, Denetleme Kurulu Başkanı): Tümü ve Üst Kurul görünümünde en üstte yan yana
+    const leadMode = !q && (filter==='all' || filter==='board');
+    const leads = leadMode ? PEOPLE.filter(p => p.lead).sort((a,b) => a.lead-b.lead) : [];
+    if (leadMode) list = list.filter(p => !p.lead);
+
+    const avatar = (p, col = colorOf(p)) => p.foto
+      ? `<span class="av photo" style="--c:${col}"><img src="${esc(p.foto)}" alt="${esc(p.name)}" loading="lazy" onerror="this.parentNode.classList.remove('photo');this.parentNode.textContent='${esc(initials(p.name))}'"></span>`
+      : `<span class="av" style="--c:${col}">${esc(initials(p.name))}</span>`;
+    const LEAD_C = '#00F0FF';
+    const boardTitles = p => [...new Set(p.roles.filter(r => ['UK','YK','DK'].includes(r[0])).map(r=>r[1]))].join(', ');
+    const chairOf = p => p.roles.filter(r => r[1]==='Komite Başkanı').map(roleLabel).join(', ');
+    const codesOf = p => [...new Set(p.roles.map(r => r[0]))].map(g => `<span style="--c:${codeColor(g)}" title="${GROUP_LABEL[g]}">${codeLabel(g)}</span>`).join('');
+
+    if (leads.length){
+      html += `<div class="leaders">${leads.map((p,i) => `
+        <article class="glass spot mem lead" style="--i:${i};--c:${LEAD_C}">
+          ${avatar(p, LEAD_C)}
+          <div class="mem-info"><span class="lead-role">${esc(boardTitles(p))}</span><b>${esc(p.name)}</b>
+          <div class="mem-codes">${codesOf(p)}</div></div>
+        </article>`).join('')}</div>`;
+    }
+
+    html += list.map((p,i) => {
+      // Gösterilecek ana görev: filtreye göre
+      let main, extra;
+      if (COMMITTEES[filter]){
+        main = roleLabel(p.roles.find(r => r[0]===filter));
+        extra = p.roles.filter(r => r[0]!==filter && r[1]!=='Komite üyesi').map(roleLabel);
+      } else if (filter==='board'){
+        main = boardTitles(p);
+        extra = chairOf(p) ? [chairOf(p)] : [];
+      } else {
+        main = roleLabel(p.roles[0]);
+        extra = p.roles.slice(1).filter(r => r[1]==='Komite Başkanı').map(roleLabel);
+      }
+      const isK = COMMITTEES[filter] && isChair(p, filter);
+      return `<article class="glass spot mem${isK ? ' chair' : ''}" style="--i:${i+leads.length};--c:${colorOf(p)}">
+        ${avatar(p)}
+        <div class="mem-info"><b>${hl(p.name)}</b><span class="role">${isK ? `<span class="chair-role">${hl(main)}</span>` : hl(main)}${extra.length?`<br><span style="color:var(--text-muted)">${hl(extra.join(', '))}</span>`:''}</span>
+        <div class="mem-codes">${codesOf(p)}</div></div>
+      </article>`;
+    }).join('');
+
+    if (!list.length && !leads.length && !showAdv){
+      html = `<div class="empty">“${esc(q)}” ile eşleşen kimse yok${filter!=='all'?' bu filtrede':''}.<br><button class="btn btn-sm" id="rClear">Aramayı temizle ve tümünü göster</button></div>`;
+    }
+    grid.innerHTML = html;
+    const rc = $('#rClear'); if (rc) rc.addEventListener('click', () => { q=''; search.value=''; show('all'); search.focus(); });
+    $$('.spot', grid).forEach(card => card.addEventListener('pointermove', e => { const r = card.getBoundingClientRect(); card.style.setProperty('--mx', (e.clientX-r.left)+'px'); card.style.setProperty('--my', (e.clientY-r.top)+'px'); }));
+    count.textContent = `${list.length + leads.length} kişi gösteriliyor` + (showAdv ? ' + akademik danışman' : '');
+  }
+  function show(f, scroll){
+    filter = f; render();
+    if (scroll) document.getElementById('kadro').scrollIntoView({behavior: reduceMotion?'auto':'smooth'});
+  }
+  search.addEventListener('input', () => { q = search.value.trim(); render(); });
+  render();
+  return { show };
+})();
+
+/* =========================================================
+   KOMİTE EŞLEŞTİRİCİ
+   ========================================================= */
+(() => {
+  const Q = [
+    { q:'Boş bir hafta sonun var. Ne yapmayı seçersin?', o:[
+      ['Bir etkinliğin afişini ve tanıtım videosunu hazırlarım', {K1:3}],
+      ['Bir oyun prototipi ya da küçük bir uygulama yazarım', {K2:3}],
+      ['Bir makale okuyup bir veri setini incelerim', {K3:3,K4:1}],
+      ['Bir fikri çalışan bir prototipe dönüştürmeye uğraşırım', {K4:3,K2:1}] ]},
+    { q:'Bir takımda en çok hangi rolde rahatsın?', o:[
+      ['İletişimi ve sahneyi yöneten kişi', {K1:3}],
+      ['Kodu yazan, hatayı ayıklayan kişi', {K2:3}],
+      ['Problemi tanımlayıp yöntemi kuran kişi', {K3:3}],
+      ['Parçaları birleştirip ürünü ortaya çıkaran kişi', {K4:3,K2:1}] ]},
+    { q:'Hangisi seni daha çok heyecanlandırır?', o:[
+      ['Yüzlerce kişinin katıldığı bir teknoloji zirvesi düzenlemek', {K1:3}],
+      ['48 saatlik Game Jam ya da bir CTF gecesi', {K2:3}],
+      ['Bir TÜBİTAK 2209-A başvurusunun kabul edilmesi', {K3:3,K4:1}],
+      ['TEKNOFEST finalinde sahneye çıkmak', {K4:3,K3:1}] ]},
+    { q:'En sık açtığın araçlar hangileri?', o:[
+      ['Figma, Canva, video düzenleyici', {K1:3}],
+      ['Unity, VS Code, Git', {K2:3}],
+      ['Python, Jupyter, makale veri tabanları', {K3:3,K2:1}],
+      ['CAD, simülasyon, geliştirme kartları', {K4:3}] ]},
+    { q:'Bir işin başarılı olduğunu nasıl anlarsın?', o:[
+      ['Salon dolduğunda, paylaşımlar yayıldığında', {K1:3}],
+      ['Oyun çalıştığında ya da bayrak yakalandığında', {K2:3}],
+      ['Sonuçlar raporlanıp kabul edildiğinde', {K3:3}],
+      ['Prototip sahada çalışıp derece aldığında', {K4:3}] ]}
+  ];
+  const main = $('#quizMain'), lab = $('#qLabel'), pct = $('#qPct'), bar = $('#qBar');
+  let i = 0, ans = [];
+
+  function progress(){
+    const done = ans.filter(a => a!=null).length;
+    lab.textContent = i < Q.length ? `Soru ${i+1} / ${Q.length}` : 'Sonuç';
+    const p = Math.round(done/Q.length*100); pct.textContent = p + '%'; bar.style.width = p + '%';
+  }
+  function step(){
+    progress();
+    if (i >= Q.length) return result();
+    const it = Q[i];
+    main.innerHTML = `<div class="q-step" style="display:flex;flex-direction:column;flex:1">
+      <p class="q-text" id="qText">${esc(it.q)}</p>
+      <div class="q-opts" role="radiogroup" aria-labelledby="qText">${it.o.map((o,k) => `<button class="q-opt${ans[i]===k?' picked':''}" role="radio" aria-checked="${ans[i]===k}" data-k="${k}"><kbd>${k+1}</kbd>${esc(o[0])}</button>`).join('')}</div>
+      <div class="q-nav"><button class="btn btn-sm btn-ghost" id="qBack" ${i===0?'disabled style="opacity:.4"':''}>Geri</button><span class="mono" style="font-size:12px;color:var(--text-muted);align-self:center">1–4 tuşlarıyla da seçebilirsin</span></div></div>`;
+    $$('.q-opt', main).forEach(b => b.addEventListener('click', () => choose(+b.dataset.k)));
+    $('#qBack').addEventListener('click', () => { if (i>0){ i--; step(); } });
+  }
+  function choose(k){
+    ans[i] = k;
+    $$('.q-opt', main).forEach(b => { const on = +b.dataset.k===k; b.classList.toggle('picked', on); b.setAttribute('aria-checked', on); });
+    progress();
+    setTimeout(() => { i++; step(); }, reduceMotion ? 0 : 260);
+  }
+  function result(){
+    const sc = {K1:0,K2:0,K3:0,K4:0};
+    ans.forEach((k,qi) => { const w = Q[qi].o[k][1]; for (const c in w) sc[c] += w[c]; });
+    const max = Math.max(...Object.values(sc)) || 1;
+    const best = Object.keys(sc).sort((a,b) => sc[b]-sc[a])[0];
+    const c = COMMITTEES[best];
+    const mem = committeeMembers(best).map(p => p.name).join(', ');
+    main.innerHTML = `<div class="q-step">
+      <div class="res-head"><span class="code" style="--c:${c.color}">${c.code}</span><span class="mono" style="font-size:12px;color:var(--text-muted)">en yüksek eşleşme</span></div>
+      <h4 class="res-title">${c.n}. Komite: ${esc(c.name)}</h4>
+      <p style="margin:0;color:var(--text-secondary)">${esc(c.focus)}</p>
+      <p style="margin:10px 0 0;font-size:14px;color:var(--text-muted)">Komitede seni bekleyenler: ${esc(mem)}</p>
+      <div class="res-bars">${Object.keys(sc).map(k => `<div class="rb${k===best?' top':''}" style="--c:${COMMITTEES[k].color};--w:${Math.round(sc[k]/max*100)}%"><span>${k}</span><span class="bar"><i></i></span><span>${Math.round(sc[k]/15*100)}%</span></div>`).join('')}</div>
+      <div class="res-actions"><button class="btn btn-primary" id="qApply">${c.n}. Komiteye başvur</button><button class="btn" id="qSee">Kadroyu gör</button><button class="btn btn-ghost" id="qRe">Testi yeniden başlat</button></div></div>`;
+    $('#qApply').addEventListener('click', () => Join.open({committee:best}));
+    $('#qSee').addEventListener('click', () => Roster.show(best, true));
+    $('#qRe').addEventListener('click', () => { i=0; ans=[]; step(); });
+  }
+  document.addEventListener('keydown', e => {
+    if (i >= Q.length || !/^[1-4]$/.test(e.key)) return;
+    if (e.target.closest('input,textarea,select,dialog')) return;
+    const r = main.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    choose(+e.key - 1);
+  });
+  step();
+})();
+
+/* =========================================================
+   BAŞVURU MODALI
+   ========================================================= */
+const Join = (() => {
+  const dlg = $('#joinDialog'), form = $('#joinForm'), done = $('#joinDone');
+  const sel = $('#fCom');
+  sel.innerHTML = `<option value="">Henüz karar vermedim</option>` + Object.values(COMMITTEES).map(c => `<option value="${c.code}">${c.n}. Komite: ${esc(c.name)}</option>`).join('');
+  $('#intChips').innerHTML = INTERESTS.map(([v,l]) => `<label><input type="checkbox" name="ilgi" value="${v}"><span>${esc(l)}</span></label>`).join('');
+
+  function open({committee, interest} = {}){
+    form.hidden = false; done.hidden = true;
+    if (committee) sel.value = committee;
+    if (interest){ const cb = form.querySelector(`input[name="ilgi"][value="${interest}"]`); if (cb) cb.checked = true; }
+    // taslak geri yükle
+    const d = store.get('atacore.draft', null);
+    if (d){ ['fName','fMail','fDept','fNote'].forEach(id => { if (d[id] && !$('#'+id).value) $('#'+id).value = d[id]; }); }
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open','');
+    setTimeout(() => $('#fName').focus(), 50);
+  }
+  function close(){ dlg.close ? dlg.close() : dlg.removeAttribute('open'); }
+  $$('[data-join]').forEach(b => b.addEventListener('click', () => open({committee:b.dataset.committee, interest:b.dataset.interest})));
+  $('#mClose').addEventListener('click', close); $('#mCancel').addEventListener('click', close);
+  dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
+  form.addEventListener('input', () => store.set('atacore.draft', {fName:$('#fName').value, fMail:$('#fMail').value, fDept:$('#fDept').value, fNote:$('#fNote').value}));
+
+  function setErr(inp, errId, msg){ inp.setAttribute('aria-invalid', !!msg); $('#'+errId).textContent = msg || ''; return !msg; }
+  function validate(){
+    let ok = true, first = null;
+    const chk = (inp, id, msg) => { const g = setErr(inp, id, msg); if (!g && !first) first = inp; ok = ok && g; };
+    chk($('#fName'), 'eName', $('#fName').value.trim().length < 3 ? 'Adını ve soyadını yaz.' : '');
+    chk($('#fMail'), 'eMail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('#fMail').value.trim()) ? 'Geçerli bir e-posta adresi yaz, örneğin ad@ogr.atauni.edu.tr' : '');
+    chk($('#fDept'), 'eDept', $('#fDept').value.trim().length < 2 ? 'Bölümünü veya programını yaz.' : '');
+    chk($('#fKvkk'), 'eKvkk', !$('#fKvkk').checked ? 'Başvurunun işlenebilmesi için onay kutusunu işaretle.' : '');
+    if (first) first.focus();
+    return ok;
+  }
+  function data(){
+    const c = COMMITTEES[sel.value];
+    return {
+      ad: $('#fName').value.trim(), eposta: $('#fMail').value.trim(), bolum: $('#fDept').value.trim(), sinif: $('#fYear').value,
+      komite: c ? `${c.n}. Komite: ${c.name}` : 'Karar verilmedi',
+      ilgi: $$('input[name="ilgi"]:checked', form).map(x => INTERESTS.find(i => i[0]===x.value)[1]),
+      not: $('#fNote').value.trim(), tarih: new Date().toISOString(),
+      website: $('#fWeb').value
+    };
+  }
+  const summaryText = d => `ATACORE üyelik başvurusu\n\nAd soyad: ${d.ad}\nE-posta: ${d.eposta}\nBölüm: ${d.bolum}\nSınıf: ${d.sinif}\nKomite tercihi: ${d.komite}\nİlgi alanları: ${d.ilgi.join(', ') || '-'}\nNot: ${d.not || '-'}`;
+
+  function showDone(d, sent, failed){
+    form.hidden = true; done.hidden = false;
+    const txt = summaryText(d);
+    const mail = CONFIG.contactEmail;
+    const mailHref = mail ? `mailto:${mail}?subject=${encodeURIComponent('ATACORE üyelik başvurusu: ' + d.ad)}&body=${encodeURIComponent(txt)}` : '';
+    done.innerHTML = sent
+      ? `<div class="ok-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 5 5 9-10"/></svg></div>
+         <h3>Başvurun gönderildi</h3><p>Teşekkürler ${esc(d.ad.split(' ')[0])}. Yönetim kurulu başvurunu inceleyip <b>${esc(d.eposta)}</b> adresine dönüş yapacak.</p>
+         <div class="m-foot"><button class="btn btn-primary" id="dClose">Tamam</button></div>`
+      : `<div class="ok-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg></div>
+         <h3>${failed ? 'Başvuru şu anda gönderilemedi' : 'Son adım: başvurunu e-postayla gönder'}</h3>
+         <p>${failed ? 'Bağlantı kurulamadı. Bilgilerin kaybolmadı; aşağıdaki butonla başvurunu e-posta olarak iletebilirsin.' : `Aşağıdaki buton e-posta uygulamanı başvuru bilgilerinle doldurur, sadece göndermen yeterli.`}${mail ? ` Adres: <span class="mono c-cy">${esc(mail)}</span>` : ''}</p>
+         <div class="summary" id="sumBox">${esc(txt)}</div>
+         <div class="m-foot"><button class="btn" id="dCopy">Özeti kopyala</button>${mail ? `<a class="btn btn-primary" id="dMail" href="${mailHref}">E-posta ile gönder</a>` : `<button class="btn btn-primary" id="dClose">Kapat</button>`}</div>`;
+    const dc = $('#dClose'); if (dc) dc.addEventListener('click', close);
+    const cp = $('#dCopy');
+    if (cp) cp.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(txt); toast('Başvuru özeti kopyalandı'); }
+      catch(e){ const r = document.createRange(); r.selectNodeContents($('#sumBox')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Özeti seçtim, Ctrl+C ile kopyala'); }
+    });
+    ($('#dMail') || $('#dClose')).focus();
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) return;
+    const d = data(), btn = $('#mSubmit');
+    if (CONFIG.appsScriptUrl){
+      btn.disabled = true; btn.textContent = 'Gönderiliyor…';
+      try {
+        // text/plain: Apps Script ön kontrol (CORS preflight) istemediği için bu biçimde gönderilir
+        const r = await fetch(CONFIG.appsScriptUrl, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(d)});
+        const j = await r.json();
+        if (!j || j.ok !== true) throw new Error((j && j.hata) || r.status);
+        store.set('atacore.draft', null); form.reset(); showDone(d, true);
+      } catch(err){
+        console.warn('[ATACORE] Başvuru gönderilemedi:', err);
+        showDone(d, false, true);
+      } finally { btn.disabled = false; btn.textContent = 'Başvuruyu gönder'; }
+    } else {
+      showDone(d, false);
+    }
+  });
+  return { open };
+})();
+
+/* =========================================================
+   SCROLL REVEAL (kademeli)
+   ========================================================= */
+(() => {
+  const els = $$('[data-reveal]');
+  if (reduceMotion || !('IntersectionObserver' in window)){ els.forEach(e => e.classList.add('in')); return; }
+  // Giriş animasyonu bitince reveal geçişini kaldır; böylece tilt efekti gecikmesiz çalışır.
+  const settle = el => el.addEventListener('transitionend', function h(ev){ if (ev.propertyName==='opacity'){ el.removeAttribute('data-reveal'); el.classList.remove('in'); el.removeEventListener('transitionend', h); } });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ settle(e.target); e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  els.forEach(e => io.observe(e));
+})();
+
+console.log('%cATACORE', 'font:700 22px "Space Grotesk",sans-serif;color:#00F0FF', '\nKaynak koduna mı bakıyorsun? Cyber Arena web görevi seni bekliyor.');
+</script>
+</body>
+</html>
